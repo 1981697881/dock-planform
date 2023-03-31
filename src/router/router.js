@@ -10,13 +10,6 @@ const map = {
   'essential': () => import('@/views/basic/essential'),
   'company': () => import('@/views/basic/company'),
 
-  'machine': () => import('@/views/commodity/machine'),
-  'ItemNo': () => import('@/views/commodity/ItemNo'),
-  'series': () => import('@/views/commodity/series'),
-  'label': () => import('@/views/commodity/label'),
-  'colors': () => import('@/views/commodity/colors'),
-  'sizes': () => import('@/views/commodity/sizes'),
-
   'agreement': () => import('@/views/contract/agreement'),
   'delivery': () => import('@/views/contract/delivery'),
   'material': () => import('@/views/contract/material'),

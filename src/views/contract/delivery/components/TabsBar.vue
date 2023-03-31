@@ -8,8 +8,9 @@
         <!--@click="printer"-->
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">物资清单</el-button>
         <el-button :size="'mini'" type="primary" @click="handlerDetailed">交接单</el-button>
-        <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">更新发货</el-button>
-        <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">更新到货</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="handlerSync">更新发货</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="handlerSync">更新到货</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
     </el-form>
   </div>
@@ -26,7 +27,7 @@ export default {
     return {
       btnList: [],
       headers: {
-        'authorization': getToken('baoli')
+        'authorization': getToken('dockrx')
       },
       fileUrl: '',
       search: {
@@ -46,6 +47,9 @@ export default {
     })*/
   },
   methods: {
+    handlerSync(){
+      this.$emit('sync')
+    },
     // 导出
     exportData() {
       this.$emit('exportData')

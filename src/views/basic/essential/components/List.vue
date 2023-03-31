@@ -17,7 +17,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getSizeColorList, deleteSizeColor } from '@/api/commodity/index'
+import { getSizeColorList, deleteSizeColor } from '@/api/basic/index'
 import List from '@/components/List'
 
 export default {

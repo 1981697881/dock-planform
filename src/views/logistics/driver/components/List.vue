@@ -16,7 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getSizeColorList, deleteSizeColor } from '@/api/commodity/index'
+import { getDriverList, deleteDriver } from '@/api/logistics/index'
 import List from '@/components/List'
 
 export default {
@@ -35,19 +35,19 @@ export default {
       type: null,
 
       columns: [
-        { text: '主键', name: 'cn' },
-        { text: '物流商编码', name: 'eur' },
-        { text: '物流商名称', name: 'usn' },
-        { text: '人员id', name: 'usw' },
-        { text: '姓名', name: 'usw' },
-        { text: '性别', name: 'usw' },
-        { text: '出生日期', name: 'usw' },
-        { text: '年龄', name: 'usw' },
-        { text: '身份证号码', name: 'usw' },
-        { text: '电话号码', name: 'usw' },
-        { text: '部门名称', name: 'usw' },
-        { text: '驾驶证类型', name: 'usw' },
-        { text: '备注', name: 'usw' },
+        { text: '主键', name: 'id' },
+        { text: '物流商编码', name: 'logisticsProvidersNumber' },
+        { text: '物流商名称', name: 'logisticsProvidersName' },
+        { text: '人员id', name: 'personId' },
+        { text: '姓名', name: 'moniker' },
+        { text: '性别', name: 'sex' },
+        { text: '出生日期', name: 'birthday' },
+        { text: '年龄', name: 'age' },
+        { text: '身份证号码', name: 'idCard' },
+        { text: '电话号码', name: 'telephone' },
+        { text: '部门名称', name: 'deptName' },
+        { text: '驾驶证类型', name: 'driveType' },
+        { text: '备注', name: 'remark' },
       ]
     }
   },
@@ -87,7 +87,7 @@ export default {
       this.$emit('uploadList')
     },
     Delivery(val) {
-      deleteSizeColor(val).then(res => {
+      deleteDriver(val).then(res => {
         if(res.flag) {
           this.$store.dispatch('list/setClickData', '');
           this.$emit('uploadList')
@@ -111,11 +111,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true
-      getSizeColorList(data, val).then(res => {
+      this.loading = true
+      getDriverList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

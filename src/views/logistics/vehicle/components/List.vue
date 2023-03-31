@@ -16,7 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getSizeColorList, deleteSizeColor } from '@/api/commodity/index'
+import { getVehicleInformationList, deleteVehicleInformation } from '@/api/logistics/index'
 import List from '@/components/List'
 
 export default {
@@ -35,18 +35,18 @@ export default {
       type: null,
 
       columns: [
-        { text: '主键', name: 'cn' },
-        { text: '物流商编码', name: 'eur' },
-        { text: '物流商名称', name: 'usn' },
-        { text: '车牌号', name: 'usw' },
-        { text: '车辆类型', name: 'usw' },
-        { text: '核定载货量（顿）', name: 'usw' },
-        { text: '装载长度（厘米）', name: 'usw' },
-        { text: '装载宽度（厘米）', name: 'usw' },
-        { text: '装载高度（厘米）', name: 'usw' },
-        { text: '年审时间', name: 'usw' },
-        { text: '年审有效期', name: 'usw' },
-        { text: '备注', name: 'usw' },
+        { text: '主键', name: 'id' },
+        { text: '物流商编码', name: 'logisticsProvidersNumber' },
+        { text: '物流商名称', name: 'logisticsProvidersName' },
+        { text: '车牌号', name: 'carNumber' },
+        { text: '车辆类型', name: 'vehicleType' },
+        { text: '核定载货量（吨）', name: 'nuclearMass' },
+        { text: '装载长度（厘米）', name: 'loadingLength' },
+        { text: '装载宽度（厘米）', name: 'loadingWidth' },
+        { text: '装载高度（厘米）', name: 'loadingHeight' },
+        { text: '年审时间', name: 'annualReviewTime' },
+        { text: '年审有效期', name: 'inspectAnnuallyLifespan' },
+        { text: '备注', name: 'remark' },
       ]
     }
   },
@@ -86,7 +86,7 @@ export default {
       this.$emit('uploadList')
     },
     Delivery(val) {
-      deleteSizeColor(val).then(res => {
+      deleteVehicleInformation(val).then(res => {
         if(res.flag) {
           this.$store.dispatch('list/setClickData', '');
           this.$emit('uploadList')
@@ -110,11 +110,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true
-      getSizeColorList(data, val).then(res => {
+      this.loading = true
+      getVehicleInformationList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

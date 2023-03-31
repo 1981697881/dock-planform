@@ -16,7 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getSizeColorList, deleteSizeColor } from '@/api/commodity/index'
+import { getStorehouseList, deleteStorehouse } from '@/api/contract/index'
 import List from '@/components/List'
 
 export default {
@@ -35,13 +35,13 @@ export default {
       type: null,
 
       columns: [
-        { text: '仓库id', name: 'cn' },
-        { text: '仓库编码', name: 'eur' },
-        { text: '仓库名称', name: 'usn' },
-        { text: '仓库经纬度', name: 'usw' },
-        { text: '地址', name: 'usw' },
-        { text: '联系人', name: 'usw' },
-        { text: '收货联系人', name: 'usw' },
+        { text: '仓库id', name: 'storehouseId' },
+        { text: '仓库编码', name: 'storehouseCode' },
+        { text: '仓库名称', name: 'storehouseName' },
+        { text: '仓库经纬度', name: 'storehouseSeat' },
+        { text: '地址', name: 'storehouseAddress' },
+        { text: '联系人', name: 'contacts' },
+        { text: '收货联系人', name: 'receivingContact' },
       ]
     }
   },
@@ -81,7 +81,7 @@ export default {
       this.$emit('uploadList')
     },
     Delivery(val) {
-      deleteSizeColor(val).then(res => {
+      deleteStorehouse(val).then(res => {
         if(res.flag) {
           this.$store.dispatch('list/setClickData', '');
           this.$emit('uploadList')
@@ -105,11 +105,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true
-      getSizeColorList(data, val).then(res => {
+      this.loading = true
+      getStorehouseList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

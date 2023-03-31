@@ -13,10 +13,22 @@ export function login(data) {
     data
   })
 }
+export function getAuth(data) {
+  return request({
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': '*/*'
+    },
+    url: '/web/auth/findAuthMessage',
+    domainName: 'auth',
+    method: 'post',
+    data: data
+  })
+}
 
 export function getInfo(fid) {
   return request({
-    url: '/back/system/user/selectUserInfoById.do',
+   url: '/back/system/user/selectUserInfoById.do',
     method: 'post',
     params: { fid }
   })
@@ -24,7 +36,7 @@ export function getInfo(fid) {
 
 export function logout(data) {
   return request({
-    url: '/back/system/user/login_out.do',
+   url: '/back/system/user/login_out.do',
     method: 'post',
   })
 }
@@ -33,9 +45,9 @@ export function changePassword(data) {
   return request({
     headers: {
       'Content-Type': 'application/json',
-      'authorization': getToken('baoli'),
+      'authorization': getToken('dockrx'),
     },
-    url: '/user/changePass',
+   url: '/user/changePass',
     method: 'post',
     data
   })

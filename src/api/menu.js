@@ -8,9 +8,9 @@ export function getRouter(userId) {
   }
   return request({
     headers: {
-      'authorization': getToken('baoli'),
+      'authorization': getToken('dockrx'),
     },
-    url: '/sys-menu/getByUser',
+   url: '/sys-menu/getByUser',
     method: 'get',
   })
 }

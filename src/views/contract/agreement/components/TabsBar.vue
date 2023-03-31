@@ -9,7 +9,7 @@
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">排产</el-button>
     <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="handlerShip">配送</el-button>
     <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">请款</el-button>
-  <el-button :size="'mini'" type="primary" icon="el-icon-download" @click="exportData">从南网下载</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-download" @click="handlerSync">从南网下载</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
     </el-form>
@@ -27,7 +27,7 @@ export default {
     return {
       btnList: [],
       headers: {
-        'authorization': getToken('baoli')
+        'authorization': getToken('dockrx')
       },
       fileUrl: '',
       search: {
@@ -90,6 +90,9 @@ export default {
           type: 'warning'
         })
       }
+    },
+    handlerSync(){
+      this.$emit('sync')
     },
     handlerAlter() {
       if (this.clickData.id) {

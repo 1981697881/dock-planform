@@ -9,6 +9,7 @@
         <!--<el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="del">删除</el-button>-->
+        <el-button :size="'mini'" type="primary" icon="el-icon-download" @click="handlerSync">从南网获取</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
     </el-form>
@@ -26,7 +27,7 @@ export default {
     return {
       btnList: [],
       headers: {
-        'authorization': getToken('baoli')
+        'authorization': getToken('dockrx')
       },
       fileUrl: '',
       search: {
@@ -64,6 +65,9 @@ export default {
     },
     upload() {
       this.$emit('uploadList')
+    },
+    handlerSync(){
+      this.$emit('sync')
     },
     del() {
       if (this.selections.length > 0) {

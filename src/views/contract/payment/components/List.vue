@@ -6,7 +6,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @row-click="rowClick"
@@ -16,15 +15,15 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getSizeColorList, deleteSizeColor } from '@/api/commodity/index'
+import { getPaymentList, deleteSizeColor, synchronizationPayment } from '@/api/contract/index'
 import List from '@/components/List'
-
+import Cookies from 'js-cookie'
 export default {
   components: {
     List
   },
   computed: {
-    ...mapGetters(['node'])
+    ...mapGetters(['userInfo'])
   },
   data() {
     return {
@@ -114,15 +113,31 @@ export default {
     rowClick(obj) {
       this.$store.dispatch('list/setClickData', obj.row)
     },
+    syncList(){
+      this.loading = true
+      let params= {
+        publicKey: Cookies.get('dockkun'),
+        secret: Cookies.get('dockkun'),
+        username: Cookies.get('dockkun'),
+        password: Cookies.get('dockps')
+      }
+      synchronizationPayment(params).then(res => {
+        if(res.flag){
+          this.$emit('uploadList')
+        }
+        this.loading = false
+      })
+    },
     fetchData(val, data = {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true
-      getSizeColorList(data, val).then(res => {
+
+      this.loading = true
+      getPaymentList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

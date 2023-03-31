@@ -9,7 +9,7 @@ export function getUsersTree(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('baoli')
+      'authorization': getToken('dockrx')
     },
     method: 'get'
   })
@@ -20,7 +20,7 @@ export function groupAdd(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('baoli'),
+      'authorization': getToken('dockrx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -33,7 +33,7 @@ export function groupAlter(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('baoli'),
+      'authorization': getToken('dockrx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -48,7 +48,7 @@ export function delGroup(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('baoli')
+      'authorization': getToken('dockrx')
     },
     method: 'delete'
   })
@@ -59,7 +59,7 @@ export function getUsersList(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('baoli'),
+      'authorization': getToken('dockrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST'
@@ -71,7 +71,7 @@ export function addUsers(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('baoli'),
+      'authorization': getToken('dockrx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -84,7 +84,7 @@ export function alterUsers(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('baoli'),
+      'authorization': getToken('dockrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -97,7 +97,7 @@ export function delUsers(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('baoli'),
+      'authorization': getToken('dockrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST'
@@ -106,9 +106,9 @@ export function delUsers(params) {
 // 用户权限管理-禁用
 export function disableUsers(params) {
   return request({
-    url: '/table/list',
+   url: '/table/list',
     headers: {
-      'authorization': getToken('baoli')
+      'authorization': getToken('dockrx')
     },
     method: 'get',
     params
@@ -117,9 +117,9 @@ export function disableUsers(params) {
 // 用户权限管理-启用
 export function enableUsers(params) {
   return request({
-    url: '/table/list',
+   url: '/table/list',
     headers: {
-      'authorization': getToken('baoli')
+      'authorization': getToken('dockrx')
     },
     method: 'get',
     params
@@ -131,7 +131,7 @@ export function getUsersInfo(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('baoli'),
+      'authorization': getToken('dockrx'),
       'Content-Type': 'application/json'
     },
     method: 'POST'
@@ -140,9 +140,9 @@ export function getUsersInfo(params) {
 // 权限按钮-查找
 export function getByUserAndPrId(params) {
   return request({
-    url: '/sys-menu/getByUserAndPrId/' + params,
+   url: '/sys-menu/getByUserAndPrId/' + params,
     headers: {
-      'authorization': getToken('baoli')
+      'authorization': getToken('dockrx')
     },
     method: 'get'
   })
@@ -150,9 +150,9 @@ export function getByUserAndPrId(params) {
 // 用户权限管理-职员下拉
 export function getClerk(params) {
   return request({
-    url: '/table/list',
+   url: '/table/list',
     headers: {
-      'authorization': getToken('baoli')
+      'authorization': getToken('dockrx')
     },
     method: 'get',
     params
@@ -161,9 +161,9 @@ export function getClerk(params) {
 // 用户权限管理-获取菜单树
 export function getMenuList(params) {
   return request({
-    url: '/sys-menu/getSysMenuTree',
+   url: '/sys-menu/getSysMenuTree',
     headers: {
-      'authorization': getToken('baoli')
+      'authorization': getToken('dockrx')
     },
     method: 'get',
   })

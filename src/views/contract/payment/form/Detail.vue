@@ -217,7 +217,7 @@
   </div>
 </template>
 
-<script>import {createSizeColor} from '@/api/commodity/index'
+<script>import {createSizeColor} from '@/api/basic/index'
 import {
   getToken
 } from '@/utils/auth'
@@ -231,7 +231,7 @@ export default {
   data() {
     return {
       headers: {
-        'authorization': getToken('baoli'),
+        'authorization': getToken('dockrx'),
       },
       fileList: [],
       dialogImageUrl: '',
@@ -311,8 +311,6 @@ export default {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
-          this.form.parentId = this.form.select[this.form.select.length-1]
-          this.form.parentIdList = this.form.select.join(',')
           createSizeColor(this.form).then(res => {
             this.$emit('hideDialog', false)
             this.$emit('uploadList')

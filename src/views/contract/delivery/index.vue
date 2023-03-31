@@ -2,7 +2,7 @@
   <div class="app-list">
     <div class="list-containerOther">
       <div>
-        <tabs-bar ref="tabs" @showDialog="handlerDialog" @showDetailedDialog="handlerDetailedDialog" @exportData="exportData" @del="delivery" @queryBtn="query" @uploadList="upload"/>
+        <tabs-bar ref="tabs" @showDialog="handlerDialog" @showDetailedDialog="handlerDetailedDialog" @exportData="exportData" @del="delivery" @queryBtn="query" @uploadList="upload" @sync="syncList"/>
       </div>
       <list ref="list" @uploadList="uploadPage" @showDialog="handlerDialog"/>
     </div>
@@ -14,7 +14,7 @@
       :width="'40%'"
       destroy-on-close
     >
-      <info @hideDialog="hideWindow2" @uploadList="upload" :listInfo="listInfo"></info>
+      <info @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info>
     </el-dialog>
   <el-dialog
       :visible.sync="visible2"
@@ -52,6 +52,9 @@ export default {
     this.$refs.list.fetchData(this.$refs.tabs.qFilter())
   },
   methods: {
+    syncList() {
+      this.$refs.list.syncList()
+    },
     exportData() {
       this.$refs.list.ExportData()
     },

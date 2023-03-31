@@ -30,6 +30,9 @@ service.interceptors.request.use(
 
       // config.headers['X-Token'] = getToken()
     }
+    if(process.env.NODE_ENV === 'production' && config.domainName == 'auth'){
+        config.baseURL = 'http://auth.gzfzdev.com:50022/'
+    }
     if (config.headers['Content-Type'] != "application/json") {
       config.data = querystring.stringify(config.data)
     }else{
@@ -82,7 +85,6 @@ service.interceptors.response.use(
           });
         })
       }
-
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
         // to re-login
@@ -130,11 +132,29 @@ service.interceptors.response.use(
   },
   error => {
     console.log('err' + error) // for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    if(error == 'Error: Request failed with status code 403'){
+      store.dispatch('user/resetToken').then(() => {
+        //location.reload()
+        MessageBox('登录出错, 是否重试?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          location.reload()
+        }).catch(() => {
+          Message({
+            type: 'info',
+            message: '已取消'
+          });
+        });
+      })
+    }else{
+      Message({
+        message: error.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+    }
     return Promise.reject(error)
   }
 )

@@ -6,7 +6,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @row-click="rowClick"
@@ -16,7 +15,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getSizeColorList, deleteSizeColor } from '@/api/commodity/index'
+import { getProjectList, synchronizationProject } from '@/api/contract/index'
 import List from '@/components/List'
 
 export default {
@@ -24,7 +23,7 @@ export default {
     List
   },
   computed: {
-    ...mapGetters(['node'])
+    ...mapGetters(['userInfo'])
   },
   data() {
     return {
@@ -35,25 +34,25 @@ export default {
       type: null,
 
       columns: [
-        { text: '合同id', name: 'cn' },
-        { text: '合同名称', name: 'eur' },
-        { text: '合同编号', name: 'usn' },
-        { text: '甲方单位名称', name: 'usw' },
-        { text: '甲方单位联系人', name: 'usw' },
-        { text: '甲方单位联系电话', name: 'usw' },
-        { text: '合同类别', name: 'usw' },
-        { text: '项目编号', name: 'usw' },
-        { text: '项目名称', name: 'usw' },
-        { text: '合同金额', name: 'usw' },
-        { text: '预付款支付比例', name: 'usw' },
-        { text: '入库成品库存支付比例', name: 'usw' },
-        { text: '到货款支付比例', name: 'usw' },
-        { text: '质保金支付比例', name: 'usw' },
-        { text: '采购单位', name: 'usw' },
-        { text: '供应期限', name: 'usw' },
-        { text: '中标比例', name: 'usw' },
-        { text: '定额分配量', name: 'usw' },
-        { text: '技术协议号', name: 'usw' },
+        { text: '合同id', name: 'contractId' },
+        { text: '合同名称', name: 'contractName' },
+        { text: '合同编号', name: 'contractCode' },
+        { text: '甲方单位名称', name: 'unitName' },
+        { text: '甲方单位联系人', name: 'contactsName' },
+        { text: '甲方单位联系电话', name: 'contactsPhone' },
+        { text: '合同类别', name: 'contractType' },
+        { text: '项目编号', name: 'projectCode' },
+        { text: '项目名称', name: 'projectName' },
+        { text: '合同金额', name: 'contractAmount' },
+        { text: '预付款支付比例', name: 'prepaymentRatio' },
+        { text: '入库成品库存支付比例', name: 'prepaymentRatio' },
+        { text: '到货款支付比例', name: 'paymentArrivalRatio' },
+        { text: '质保金支付比例', name: 'bondRatio' },
+        { text: '采购单号', name: 'purchaseId' },
+        { text: '供应期限', name: 'supplyDuration' },
+        { text: '中标比例', name: 'biddingProportion' },
+        { text: '定额分配量', name: 'quotaAllocation' },
+        { text: '技术协议号', name: 'technicalAgreementNumber' },
       ]
     }
   },
@@ -92,14 +91,6 @@ export default {
       this.list.current = val
       this.$emit('uploadList')
     },
-    Delivery(val) {
-      deleteSizeColor(val).then(res => {
-        if(res.flag) {
-          this.$store.dispatch('list/setClickData', '');
-          this.$emit('uploadList')
-        }
-      });
-    },
     uploadPr(val) {
       this.fetchData(val, {
         pageNum: 1,
@@ -113,15 +104,30 @@ export default {
     rowClick(obj) {
       this.$store.dispatch('list/setClickData', obj.row)
     },
+    syncList(){
+      this.loading = true
+      let params= {
+        publicKey: this.userInfo.FSessionkey,
+        secret: this.userInfo.FTargetKey,
+        username: this.userInfo.FAppkey,
+        password: this.userInfo.FSecret
+      }
+      synchronizationProject(params).then(res => {
+        if(res.flag){
+          this.$emit('uploadList')
+        }
+        this.loading = false
+      })
+    },
     fetchData(val, data = {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true
-      getSizeColorList(data, val).then(res => {
+      this.loading = true
+      getProjectList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

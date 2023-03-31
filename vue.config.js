@@ -14,6 +14,7 @@ const name = defaultSettings.title || 'dock-planformv.1' // page title
 // port = 9528 npm run dev OR npm run dev --port = 9528
 
 // const port = process.env.port || process.env.npm_config_port || 9528 // dev port
+
 const port = 8080
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
@@ -36,12 +37,21 @@ module.exports = {
       errors: true
     },
     proxy: {
+      [process.env.VUE_APP_BASE_API+'/web']: {
+        target: `http://auth.gzfzdev.com:50022/`,
+        changeOrigin: true, // 必须加上跨域
+        ws: false,
+        secure: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      },
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
         //target: `http://gzfzdev.com/`, // 修改后台接口地址
-        //target: `http://test.gzfzdev.com:10013/`,
-        target: `http://nw.gzfzdev.com:50070/nanwang`,
+        target: `http://test.gzfzdev.com:10005/`,
+        //target: `http://nw.gzfzdev.com:50070/nanwang`,
         changeOrigin: true, // 必须加上跨域
         ws: false,
         secure: false,
@@ -49,15 +59,7 @@ module.exports = {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
-    /*  ['/api']: {
-        target: `https://tool.bitefu.net/`,
-        changeOrigin: true, // 必须加上跨域
-        ws: false,
-        secure: true,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API + '/api']: ''
-        }
-      }*/
+
     }
     // after: require('./mock/mock-server.js') // 使用后台接口就注释掉
   },

@@ -16,7 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getSizeColorList, deleteSizeColor } from '@/api/commodity/index'
+import { getProjectplanList, deleteSizeColor, synchronizationProjectplan } from '@/api/contract/index'
 import List from '@/components/List'
 
 export default {
@@ -24,7 +24,7 @@ export default {
     List
   },
   computed: {
-    ...mapGetters(['node'])
+    ...mapGetters(['userInfo'])
   },
   data() {
     return {
@@ -33,20 +33,19 @@ export default {
       list: {},
       fid: null,
       type: null,
-
       columns: [
-        { text: '物质id', name: 'cn' },
-        { text: '物资编号', name: 'eur' },
-        { text: '物资名称', name: 'usn' },
-        { text: '规格', name: 'usw' },
-        { text: '单位', name: 'usw' },
-        { text: '数量', name: 'usw' },
+        { text: '物资id', name: 'materialId' },
+        { text: '物资编号', name: 'materialCode' },
+        { text: '物资名称', name: 'materialName' },
+        { text: '规格', name: 'specification' },
+        { text: '单位', name: 'unit' },
+        { text: '数量', name: 'quantity' },
         { text: '生产编号', name: 'usw' },
-        { text: '合同编号', name: 'usw' },
+        { text: '合同编号', name: 'contractCode' },
         { text: '合同交货期', name: 'usw' },
         { text: '当前生效的合同交货日期', name: 'usw' },
         { text: '生产安排日期', name: 'usw' },
-        { text: '确认状态', name: 'usw' },
+        { text: '确认状态', name: 'confirmationStatus' },
       ]
     }
   },
@@ -106,15 +105,30 @@ export default {
     rowClick(obj) {
       this.$store.dispatch('list/setClickData', obj.row)
     },
+    syncList(){
+      this.loading = true
+      let params= {
+        publicKey: this.userInfo.FSessionkey,
+        secret: this.userInfo.FTargetKey,
+        username: this.userInfo.FAppkey,
+        password: this.userInfo.FSecret
+      }
+      synchronizationProjectplan(params).then(res => {
+        if(res.flag){
+          this.$emit('uploadList')
+        }
+        this.loading = false
+      })
+    },
     fetchData(val, data = {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true
-      getSizeColorList(data, val).then(res => {
+      this.loading = true
+      getProjectplanList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

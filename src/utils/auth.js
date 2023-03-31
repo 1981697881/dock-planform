@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'baoli'
+const TokenKey = 'dockrx'
 
 export function getToken(TokenKey) {
   return Cookies.get(TokenKey)
@@ -24,8 +24,8 @@ export function removeToken(TokenKey) {
 }
 
 export function setUserName(username){
-  return Cookies.set('dkun',username)
+  return Cookies.set('dockkun',username)
 }
 export function setPassword(password){
-  return Cookies.set('dkps',password)
+  return Cookies.set('dockps',password)
 }

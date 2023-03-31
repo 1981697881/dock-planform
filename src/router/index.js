@@ -61,14 +61,15 @@ export const StaticRouterMap = [{
     icon: 'component'
   },
   children: [
-    {
+    /*{
       path: 'clerk',
       component: () => import('@/views/basic/clerk/index'),
       name: 'Clerk',
       meta: {
         title: '员工管理'
       }
-    },{
+    },*/
+    {
       path: 'essential',
       component: () => import('@/views/basic/essential/index'),
       name: 'Essential',

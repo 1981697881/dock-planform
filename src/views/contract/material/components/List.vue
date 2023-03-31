@@ -6,7 +6,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @row-click="rowClick"
@@ -16,15 +15,15 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getSizeColorList, deleteSizeColor } from '@/api/commodity/index'
+import { getMaterialList, synchronization} from '@/api/contract/index'
 import List from '@/components/List'
-
+import Cookies from 'js-cookie'
 export default {
   components: {
     List
   },
   computed: {
-    ...mapGetters(['node'])
+    ...mapGetters(['userInfo'])
   },
   data() {
     return {
@@ -33,28 +32,27 @@ export default {
       list: {},
       fid: null,
       type: null,
-
       columns: [
-        { text: '物资id', name: 'cn' },
-        { text: '物资编码', name: 'eur' },
-        { text: '物资名称', name: 'usn' },
-        { text: '规格', name: 'usw' },
-        { text: '单价', name: 'usw' },
-        { text: '金额', name: 'usw' },
-        { text: '税额', name: 'usw' },
-        { text: '价税合计', name: 'usw' },
-        { text: '数量', name: 'usw' },
-        { text: '单位', name: 'usw' },
-        { text: '合同交货期', name: 'usw' },
-        { text: '项目编号', name: 'usw' },
-        { text: '项目名称', name: 'usw' },
-        { text: '生效数量', name: 'usw' },
-        { text: '当前生效的交货日期', name: 'usw' },
-        { text: '品类编号', name: 'usw' },
-        { text: '框架协议号', name: 'usw' },
-        { text: '技术协议号', name: 'usw' },
-        { text: '已排产数量', name: 'usw' },
-        { text: '已入库数量', name: 'usw' },
+        { text: '物资id', name: 'materialId' },
+        { text: '物资编码', name: 'materialCode' },
+        { text: '物资名称', name: 'materialName' },
+        { text: '规格', name: 'specification' },
+        { text: '单价', name: 'unitPrice' },
+        { text: '金额', name: 'amountMoney' },
+        { text: '税额', name: 'amountTax' },
+        { text: '价税合计', name: 'amountTotal' },
+        { text: '数量', name: 'quantity' },
+        { text: '单位', name: 'unit' },
+        { text: '合同交货期', name: 'deliveryDate' },
+        { text: '项目编号', name: 'projectCode' },
+        { text: '项目名称', name: 'projectName' },
+        { text: '生效数量', name: 'effQuantity' },
+        { text: '当前生效的交货日期', name: 'effDeliveryDate' },
+        { text: '品类编号', name: 'categoryCode' },
+        { text: '框架协议号', name: 'framworkNumber' },
+        { text: '技术协议号', name: 'technicalNumber' },
+        { text: '已排产数量', name: 'yetProductNumber' },
+        { text: '已入库数量', name: 'yetStorageNumber' },
       ]
     }
   },
@@ -93,14 +91,6 @@ export default {
       this.list.current = val
       this.$emit('uploadList')
     },
-    Delivery(val) {
-      deleteSizeColor(val).then(res => {
-        if(res.flag) {
-          this.$store.dispatch('list/setClickData', '');
-          this.$emit('uploadList')
-        }
-      });
-    },
     uploadPr(val) {
       this.fetchData(val, {
         pageNum: 1,
@@ -114,15 +104,31 @@ export default {
     rowClick(obj) {
       this.$store.dispatch('list/setClickData', obj.row)
     },
+    syncList(){
+      this.loading = true
+      let params= {
+        publicKey: this.userInfo.FSessionkey,
+        secret: this.userInfo.FTargetKey,
+        username: this.userInfo.FAppkey,
+        password: this.userInfo.FSecret
+      }
+      console.log(params)
+      synchronization(params).then(res => {
+        if(res.flag){
+          this.$emit('uploadList')
+        }
+        this.loading = false
+      })
+    },
     fetchData(val, data = {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-     /* this.loading = true
-      getSizeColorList(data, val).then(res => {
+      this.loading = true
+      getMaterialList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

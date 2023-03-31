@@ -27,7 +27,7 @@ export default {
     return {
       btnList: [],
       headers: {
-        'authorization': getToken('baoli')
+        'authorization': getToken('dockrx')
       },
       fileUrl: '',
       search: {

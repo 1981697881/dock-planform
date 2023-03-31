@@ -12,7 +12,7 @@
         <el-button :size="'mini'" type="primary" >引入</el-button>
         <el-button :size="'mini'" type="primary" >上传南网</el-button>
         <el-button :size="'mini'" type="primary" @click=handlerNode>获取排产信息</el-button>
-        <el-button :size="'mini'" type="primary" >确认排产状态</el-button>
+        <el-button :size="'mini'" type="primary" @click="handlerSync">确认排产状态</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
     </el-form>
@@ -30,7 +30,7 @@ export default {
     return {
       btnList: [],
       headers: {
-        'authorization': getToken('baoli')
+        'authorization': getToken('dockrx')
       },
       fileUrl: '',
       search: {
@@ -93,6 +93,9 @@ export default {
           type: 'warning'
         })
       }
+    },
+    handlerSync(){
+      this.$emit('sync')
     },
     handlerAlter() {
       if (this.clickData.id) {

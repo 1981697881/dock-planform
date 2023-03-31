@@ -1,17 +1,22 @@
 import { login, getInfo,changePassword, getPermissions} from '@/api/user'
 import { getToken, setToken, removeToken, setUserName, setPassword, setPer} from '@/utils/auth'
 import { resetRouter } from '@/router'
+import Cookies from 'js-cookie'
 
 const state = {
-  token: getToken('baoli'),
+  token: getToken('dockrx'),
   name: '',
   url: 'http://nw.gzfzdev.com:50070',
   avatar: '',
   plper: '',
   username: '',
   password: '',
+  userInfo: Cookies.get('userInfo') ? Cookies.get('userInfo') : {},
 }
 const mutations = {
+  SET_USER_INFO: (state, data) =>{
+    state.userInfo = data
+  },
   SET_TOKEN: (state, token) => {
     state.token = token
   },
@@ -33,11 +38,16 @@ const mutations = {
 }
 
 const actions = {
+  setUserInfo({commit}, data) {
+    commit('SET_USER_INFO', data)
+    Cookies.set('userInfo', data)
+  },
   // user login
   login({ commit }, userInfo) {
     const { username, password } = userInfo
+    userInfo.username = username.trim()
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login(userInfo).then(response => {
        const { data } = response
        /* commit('SET_TOKEN', data.fid)
         setToken(data.fid)*/
@@ -57,9 +67,9 @@ const actions = {
       changePassword(info).then(response => {
         commit('SET_TOKEN', '')
         //removeToken('plper')
-        removeToken('baoli')
-        removeToken('dkps')
-        removeToken('dkun')
+        removeToken('dockrx')
+        removeToken('dockps')
+        removeToken('dockkun')
         resetRouter()
         resolve(response)
       }).catch(error => {
@@ -124,10 +134,12 @@ const actions = {
       //logout({ fid: state.token }).then(() => {
       commit('SET_TOKEN', '')
       commit('SET_PER', '')
+      commit('SET_USER_INFO', {})
       //removeToken('plper')
-      removeToken('baoli')
-      removeToken('dkps')
-      removeToken('dkun')
+      removeToken('dockrx')
+      removeToken('dockps')
+      removeToken('dockkun')
+      removeToken('userInfo')
       resetRouter()
       resolve()
       /*}).catch(error => {
@@ -146,9 +158,9 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
-      removeToken('baoli')
-    /*  removeToken('dkps')
-      removeToken('dkun')*/
+      removeToken('dockrx')
+    /*  removeToken('dockps')
+      removeToken('dockkun')*/
       removeToken()
       resolve()
     })

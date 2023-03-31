@@ -2,7 +2,8 @@
   <div class="app-list">
     <div class="list-containerOther">
       <div>
-        <tabs-bar ref="tabs" @showDialog="handlerDialog" @exportData="exportData" @del="delivery" @queryBtn="query" @uploadList="upload"/>
+        <tabs-bar ref="tabs" @showDialog="handlerDialog" @exportData="exportData" @del="delivery" @sync="syncList"
+                  @queryBtn="query" @uploadList="upload"/>
       </div>
       <list ref="list" @uploadList="uploadPage" @showDialog="handlerDialog"/>
     </div>
@@ -19,8 +20,8 @@
   </div>
 </template>
 
-<script>import { TabsBar, List } from './components'
-import { Info } from './form'
+<script>import {TabsBar, List} from './components'
+import {Info} from './form'
 
 export default {
   components: {
@@ -47,6 +48,9 @@ export default {
       if (obj) {
         this.$refs.list.Delivery(obj)
       }
+    },
+    syncList() {
+      this.$refs.list.syncList()
     },
     hideWindow(val) {
       this.visible = val

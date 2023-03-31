@@ -6,7 +6,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @row-click="rowClick"
@@ -16,7 +15,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getSizeColorList, deleteSizeColor } from '@/api/commodity/index'
+import { getDistributionList, deleteSizeColor, synchronizationDistribution } from '@/api/contract/index'
 import List from '@/components/List'
 
 export default {
@@ -24,7 +23,7 @@ export default {
     List
   },
   computed: {
-    ...mapGetters(['node'])
+    ...mapGetters(['userInfo'])
   },
   data() {
     return {
@@ -35,29 +34,28 @@ export default {
       type: null,
 
       columns: [
-        { text: '配送单号', name: 'cn' },
-        { text: '配送单类型', name: 'eur' },
-        { text: '配送单需求类型', name: 'usn' },
-        { text: '要求送达时间', name: 'usw' },
-        { text: '要求配送时间', name: 'usw' },
-        { text: '任务完成时间', name: 'usw' },
-        { text: '是否需要吊装', name: 'usw' },
-        { text: '发货地址', name: 'usw' },
-        { text: '发货联系人', name: 'usw' },
-        { text: '发货联系电话', name: 'usw' },
-        { text: '发货仓库id', name: 'usw' },
-        { text: '发货仓库名称', name: 'usw' },
-        { text: '发货仓库编码', name: 'usw' },
-        { text: '发货仓库经纬度', name: 'usw' },
-        { text: '收货地址', name: 'usw' },
-        { text: '收货联系人', name: 'usw' },
-        { text: '收货联系电话', name: 'usw' },
-        { text: '收货仓库id', name: 'usw' },
-        { text: '收货仓库名称', name: 'usw' },
-        { text: '收货仓库编码', name: 'usw' },
-        { text: '收货仓库经纬度', name: 'usw' },
-        { text: '地市局名称', name: 'usw' },
-        { text: '备注', name: 'usw' },
+        { text: '配送单ID', name: 'distributionId' },
+        { text: '配送来源单', name: 'distributionCode' },
+        { text: '单据类型', name: 'distributionType' },
+        { text: '制单时间/生成配送单时间', name: 'generationTime' },
+        { text: '状态', name: 'distributionStatus' },
+        { text: '收货联系人', name: 'receiver' },
+        { text: '收货联系人电话', name: 'receiverNumber' },
+        { text: '收货地址', name: 'receiverAddress' },
+        { text: '发货联系人', name: 'sender' },
+        { text: '发货联系电话', name: 'senderNumber' },
+        { text: '发货地址', name: 'senderAddress' },
+        { text: '承运单位名称', name: 'carrier' },
+        { text: '运输车型', name: 'vehicleType' },
+        { text: '运输车辆车牌号码', name: 'vehicleNumber' },
+        { text: '运输车辆状况', name: 'vehicleStatus' },
+        { text: '运输司机联系方式', name: 'driverNumber' },
+        { text: '运输司机姓名', name: 'driverName' },
+        { text: '承运商装运人员数量', name: 'loaderNum' },
+        { text: '车次', name: 'departure' },
+        { text: '发货时间', name: 'sendTime' },
+        { text: '到货日期', name: 'arrivalTime' },
+        { text: '备注', name: 'remarks' },
       ]
     }
   },
@@ -117,15 +115,30 @@ export default {
     rowClick(obj) {
       this.$store.dispatch('list/setClickData', obj.row)
     },
+    syncList(){
+      this.loading = true
+      let params= {
+        publicKey: this.userInfo.FSessionkey,
+        secret: this.userInfo.FTargetKey,
+        username: this.userInfo.FAppkey,
+        password: this.userInfo.FSecret
+      }
+      synchronizationDistribution(params).then(res => {
+        if(res.flag){
+          this.$emit('uploadList')
+        }
+        this.loading = false
+      })
+    },
     fetchData(val, data = {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true
-      getSizeColorList(data, val).then(res => {
+      this.loading = true
+      getDistributionList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }
