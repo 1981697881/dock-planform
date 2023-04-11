@@ -15,7 +15,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getPaymentList, deleteSizeColor, synchronizationPayment } from '@/api/contract/index'
+import { getPaymentList, updatePayment, synchronizationPayment } from '@/api/contract/index'
 import List from '@/components/List'
 import Cookies from 'js-cookie'
 export default {
@@ -93,7 +93,8 @@ export default {
       this.$emit('uploadList')
     },
     Delivery(val) {
-      deleteSizeColor(val).then(res => {
+      val.operation_type = 'del'
+      updatePayment(val).then(res => {
         if(res.flag) {
           this.$store.dispatch('list/setClickData', '');
           this.$emit('uploadList')
@@ -115,11 +116,12 @@ export default {
     },
     syncList(){
       this.loading = true
+      let userData = JSON.parse(this.userInfo)
       let params= {
-        publicKey: Cookies.get('dockkun'),
-        secret: Cookies.get('dockkun'),
-        username: Cookies.get('dockkun'),
-        password: Cookies.get('dockps')
+        publicKey: userData.FSessionkey,
+        secret: userData.FTargetKey,
+        username: userData.FAppkey,
+        password: userData.FSecret
       }
       synchronizationPayment(params).then(res => {
         if(res.flag){

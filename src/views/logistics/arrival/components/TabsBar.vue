@@ -1,6 +1,6 @@
 <template>
   <div class="list-header">
-    <el-form v-model="search" :size="'mini'" :label-width="'80px'">
+    <el-form v-model="search" :size="'mini'">
       <el-button-group style="float:right">
        <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary"
                    :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}
@@ -9,6 +9,7 @@
         <!--<el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="del">删除</el-button>-->
+        <el-button :size="'mini'" type="primary" icon="el-icon-download" @click="handlerSync">从南网获取</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
     </el-form>
@@ -46,6 +47,9 @@ export default {
     })*/
   },
   methods: {
+    handlerSync(){
+      this.$emit('sync')
+    },
     // 导出
     exportData() {
       this.$emit('exportData')

@@ -2,7 +2,7 @@
   <div class="app-list">
     <div class="list-containerOther">
       <div>
-        <tabs-bar ref="tabs" @showDialog="handlerDialog" @showNodeDialog="handlerNodeDialog" @exportData="exportData" @del="delivery" @queryBtn="query" @uploadList="upload"  @sync="syncList"/>
+        <tabs-bar ref="tabs" @showDialog="handlerDialog" @showNodeDialog="handlerNodeDialog" @exportData="exportData" @del="delivery" @queryBtn="query" @uploadList="upload"  @sync="syncList" @syncCom="syncComList"/>
       </div>
       <list ref="list" @uploadList="uploadPage" @showDialog="handlerDialog"/>
     </div>
@@ -24,18 +24,19 @@
       :width="'40%'"
       destroy-on-close
     >
-      <info @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info>
+      <node @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></node>
     </el-dialog>
   </div>
 </template>
 
 <script>import { TabsBar, List } from './components'
-import { Info } from './form'
+import { Info,Node } from './form'
 
 export default {
   components: {
     TabsBar,
     List,
+    Node,
     Info
   },
   data() {
@@ -61,6 +62,8 @@ export default {
     },
     syncList() {
       this.$refs.list.syncList()
+    }, syncComList() {
+      this.$refs.list.syncComList()
     },
     hideWindow(val) {
       this.visible2 = val

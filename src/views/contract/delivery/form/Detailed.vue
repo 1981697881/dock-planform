@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="form" :rules="rules" ref="form" label-width="110px" :size="'mini'">
+    <el-form :model="form" :rules="rules" ref="form" :size="'mini'">
       <el-table :data="list" border height="250px" ref="multipleTable" @selection-change="handleSelectionChange"
       stripe size="mini" :highlight-current-row="true">
       <el-table-column align="center" type="selection"></el-table-column>
@@ -85,3 +85,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .list-main {
+    height: calc(100vh/3);
+  }
+</style>

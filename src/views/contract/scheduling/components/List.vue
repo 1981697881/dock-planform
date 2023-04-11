@@ -16,7 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getProjectplanList, deleteSizeColor, synchronizationProjectplan } from '@/api/contract/index'
+import { getProjectplanList, addProductInfo, synchronizationProjectplan, synchronizationConfirmation,synchronizationMaterialdetail } from '@/api/contract/index'
 import List from '@/components/List'
 
 export default {
@@ -85,7 +85,8 @@ export default {
       this.$emit('uploadList')
     },
     Delivery(val) {
-      deleteSizeColor(val).then(res => {
+      val.operation_type = 'del'
+      addProductInfo(val).then(res => {
         if(res.flag) {
           this.$store.dispatch('list/setClickData', '');
           this.$emit('uploadList')
@@ -105,15 +106,33 @@ export default {
     rowClick(obj) {
       this.$store.dispatch('list/setClickData', obj.row)
     },
+
     syncList(){
       this.loading = true
+      let userData = JSON.parse(this.userInfo)
       let params= {
-        publicKey: this.userInfo.FSessionkey,
-        secret: this.userInfo.FTargetKey,
-        username: this.userInfo.FAppkey,
-        password: this.userInfo.FSecret
+        publicKey: userData.FSessionkey,
+        secret: userData.FTargetKey,
+        username: userData.FAppkey,
+        password: userData.FSecret
       }
       synchronizationProjectplan(params).then(res => {
+        if(res.flag){
+          this.$emit('uploadList')
+        }
+        this.loading = false
+      })
+    },
+    syncComList(){
+      this.loading = true
+      let userData = JSON.parse(this.userInfo)
+      let params= {
+        publicKey: userData.FSessionkey,
+        secret: userData.FTargetKey,
+        username: userData.FAppkey,
+        password: userData.FSecret
+      }
+      synchronizationConfirmation(params).then(res => {
         if(res.flag){
           this.$emit('uploadList')
         }

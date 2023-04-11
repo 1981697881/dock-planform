@@ -120,6 +120,19 @@ export function synchronizationProjectplan(params) {
     data: params
   })
 }
+// 排产信息-新增
+export function addProductInfo(params) {
+  const url = '/operation/addProductInfo'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('dockrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}
 // 配送服务-获取列表
 export function getDistributionList(params, data) {
   const url = '/distribution/distributionList/' + params.pageNum + '/' + params.pageSize
@@ -170,9 +183,23 @@ export function synchronizationPayment(params) {
     method: 'post',
     data: params
   })
-}// 到货入库-获取列表
-export function getEntryList(params, data) {
-  const url = '/entry/entryList/' + params.pageNum + '/' + params.pageSize
+}
+// 款项管理-新增修改删除
+export function updatePayment(params) {
+  const url = '/operation/updatePayment'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('dockrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}
+// 合同入供应商-获取列表
+export function getStorageList(params, data) {
+  const url = '/storage/storageList/' + params.pageNum + '/' + params.pageSize
   return request({
     url: url,
     headers: {
@@ -183,9 +210,59 @@ export function getEntryList(params, data) {
     data: data
   })
 }
-// 到货入库-同步
-export function synchronizationEntry(params) {
-  const url = '/entry/synchronization'
+// 合同入供应商-同步
+export function synchronizationStorage(params) {
+  const url = '/storage/synchronization'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('dockrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}// 排产资料确认-获取列表
+export function getConfirmationList(params, data) {
+  const url = '/confirmation/confirmationList/' + params.pageNum + '/' + params.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('dockrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: data
+  })
+}
+// 排产资料确认-同步
+export function synchronizationConfirmation(params) {
+  const url = '/confirmation/synchronization'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('dockrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}// 排产节点-获取列表
+export function getMaterialdetailList(params, data) {
+  const url = '/materialdetail/materialdetailList/' + params.pageNum + '/' + params.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('dockrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: data
+  })
+}
+// 排产节点-同步
+export function synchronizationMaterialdetail(params) {
+  const url = '/materialdetail/synchronization'
   return request({
     url: url,
     headers: {

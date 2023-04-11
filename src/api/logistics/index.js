@@ -81,3 +81,29 @@ export function deleteDriver(params) {
     data: params
   })
 }
+// 到货入库-获取列表
+export function getEntryList(params, data) {
+  const url = '/entry/entryList/' + params.pageNum + '/' + params.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('dockrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: data
+  })
+}
+// 到货入库-同步
+export function synchronizationEntry(params) {
+  const url = '/entry/synchronization'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('dockrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}

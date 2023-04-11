@@ -2,7 +2,7 @@
   <div class="app-list">
     <div class="list-containerOther">
       <div>
-        <tabs-bar ref="tabs" @showDialog="handlerDialog" @exportData="exportData" @del="delivery" @queryBtn="query" @uploadList="upload"/>
+        <tabs-bar ref="tabs" @showDialog="handlerDialog" @exportData="exportData" @del="delivery" @queryBtn="query"  @sync="syncList" @uploadList="upload"/>
       </div>
       <list ref="list" @uploadList="uploadPage" @showDialog="handlerDialog"/>
     </div>
@@ -50,6 +50,9 @@ export default {
     },
     hideWindow(val) {
       this.visible = val
+    },
+    syncList() {
+      this.$refs.list.syncList()
     },
     handlerDialog(obj) {
       this.listInfo = null

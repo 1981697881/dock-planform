@@ -106,11 +106,12 @@ export default {
     },
     syncList(){
       this.loading = true
+      let userData = JSON.parse(this.userInfo)
       let params= {
-        publicKey: this.userInfo.FSessionkey,
-        secret: this.userInfo.FTargetKey,
-        username: this.userInfo.FAppkey,
-        password: this.userInfo.FSecret
+        publicKey: userData.FSessionkey,
+        secret: userData.FTargetKey,
+        username: userData.FAppkey,
+        password: userData.FSecret
       }
       synchronizationProject(params).then(res => {
         if(res.flag){

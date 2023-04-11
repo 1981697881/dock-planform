@@ -38,7 +38,7 @@ module.exports = {
     },
     proxy: {
       [process.env.VUE_APP_BASE_API+'/web']: {
-        target: `http://auth.gzfzdev.com:50022/`,
+        target: `http://nw.gzfzdev.com:50022`,
         changeOrigin: true, // 必须加上跨域
         ws: false,
         secure: true,
@@ -59,7 +59,6 @@ module.exports = {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
-
     }
     // after: require('./mock/mock-server.js') // 使用后台接口就注释掉
   },

@@ -133,13 +133,13 @@
         this.$refs.loginForm.validate(valid => {
           if (valid) {
             this.loading = true
-            getAuth({"auth": "NW202301XY"}).then(authRes => {
+           /* getAuth({"auth": "NW202301XY"}).then(authRes => {
               if(authRes.success){
                 this.loginForm.FTargetKey = authRes.data.FTargetKey
                 this.loginForm.FAppKey = authRes.data.FAppKey
                 this.loginForm.FSecret = authRes.data.FSecret
                 this.loginForm.FK3CloudUrl = authRes.data.FK3CloudUrl
-                this.$store.dispatch('user/setUserInfo', authRes.data)
+                this.$store.dispatch('user/setUserInfo', authRes.data)*/
                 this.$store.dispatch('user/login', this.loginForm).then((res) => {
                   if (res.flag) {
                     this.$router.push({path: this.redirect || '/'})
@@ -154,8 +154,8 @@
                 }).catch(() => {
                   this.loading = false
                 })
-              }
-            })
+             /* }
+            })*/
           } else {
             console.log('error submit!!')
             return false

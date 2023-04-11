@@ -31,7 +31,7 @@ service.interceptors.request.use(
       // config.headers['X-Token'] = getToken()
     }
     if(process.env.NODE_ENV === 'production' && config.domainName == 'auth'){
-        config.baseURL = 'http://auth.gzfzdev.com:50022/'
+        config.baseURL = 'http://nw.gzfzdev.com:50022'
     }
     if (config.headers['Content-Type'] != "application/json") {
       config.data = querystring.stringify(config.data)

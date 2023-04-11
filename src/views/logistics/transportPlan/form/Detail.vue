@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="form" :rules="rules" ref="form" label-width="110px" :size="'mini'">
+    <el-form :model="form" :rules="rules" ref="form" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'运输计划编号'" prop="cn">
@@ -33,9 +33,10 @@
         </el-col><el-col :span="12">
           <el-form-item :label="'计划发货时间'" prop="usw">
             <el-date-picker
+              value-format="yyyy-MM-dd"
               v-model="form.eur"
               type="datetime"
-              style="width: auto"
+              style="width: 100%"
               placeholder="选择日期">
             </el-date-picker>
         </el-form-item>

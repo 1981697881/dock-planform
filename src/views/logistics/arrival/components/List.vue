@@ -16,7 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getSizeColorList, deleteSizeColor } from '@/api/basic/index'
+import { getEntryList, deleteSizeColor, synchronizationEntry } from '@/api/logistics/index'
 import List from '@/components/List'
 
 export default {
@@ -24,7 +24,7 @@ export default {
     List
   },
   computed: {
-    ...mapGetters(['node'])
+    ...mapGetters(['userInfo'])
   },
   data() {
     return {
@@ -33,19 +33,18 @@ export default {
       list: {},
       fid: null,
       type: null,
-
       columns: [
-        { text: '入库单id', name: 'cn' },
-        { text: '入库单号', name: 'eur' },
-        { text: '物资名称', name: 'usn' },
-        { text: '规格', name: 'usw' },
-        { text: '单位', name: 'usw' },
-        { text: '数量', name: 'usw' },
-        { text: '金额', name: 'usw' },
-        { text: '税额', name: 'usw' },
-        { text: '价税合计', name: 'usw' },
-        { text: '冲红价税合计', name: 'usw' },
-        { text: '入库单类型', name: 'usw' },
+        { text: '入库单id', name: 'entryId' },
+        { text: '入库单号', name: 'entryCode' },
+        { text: '物资名称', name: 'materialName' },
+        { text: '规格', name: 'specification' },
+        { text: '单位', name: 'unit' },
+        { text: '数量', name: 'quantity' },
+        { text: '金额', name: 'amountMoney' },
+        { text: '税额', name: 'amountTax' },
+        { text: '价税合计', name: 'amountTotal' },
+        { text: '冲红价税合计', name: 'writeoffTotal' },
+        { text: '入库单类型', name: 'entryType' },
       ]
     }
   },
@@ -105,15 +104,31 @@ export default {
     rowClick(obj) {
       this.$store.dispatch('list/setClickData', obj.row)
     },
+    syncList(){
+      this.loading = true
+      let userData = JSON.parse(this.userInfo)
+      let params= {
+        publicKey: userData.FSessionkey,
+        secret: userData.FTargetKey,
+        username: userData.FAppkey,
+        password: userData.FSecret
+      }
+      synchronizationEntry(params).then(res => {
+        if(res.flag){
+          this.$emit('uploadList')
+        }
+        this.loading = false
+      })
+    },
     fetchData(val, data = {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true
-      getSizeColorList(data, val).then(res => {
+      this.loading = true
+      getEntryList(data, val).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 }

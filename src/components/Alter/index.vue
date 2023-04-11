@@ -1,6 +1,6 @@
 <template>
   <div >
-    <el-form  label-width="100px" ref="form" :rules="loginRules" :model="form" :size="'mini'">
+    <el-form ref="form" :rules="loginRules" :model="form" :size="'mini'">
       <el-row :gutter="20" type="flex"  justify="center">
         <el-col :span="12">
           <el-form-item :label="'原密码'" prop="oldPassword">

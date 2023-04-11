@@ -1,6 +1,6 @@
 <template>
   <div class="list-header">
-    <el-form v-model="search" :size="'mini'" :label-width="'80px'">
+    <el-form v-model="search" :size="'mini'">
       <el-button-group style="float:right">
        <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary"
                    :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}
@@ -95,23 +95,23 @@ export default {
       this.$emit('sync')
     },
     handlerAlter() {
-      if (this.clickData.id) {
-        this.$emit('showDialog', this.clickData)
-      } else {
+      /*if (this.clickData.id) {*/
+        this.$emit('showDialog'/*, this.clickData*/)
+      /*} else {
         this.$message({
           message: '无选中行',
           type: 'warning'
         })
-      }
+      }*/
     },handlerShip() {
-      if (this.clickData.id) {
-        this.$emit('showShipDialog', this.clickData)
-      } else {
+     /* if (this.clickData.id) {*/
+        this.$emit('showShipDialog'/*, this.clickData*/)
+     /* } else {
         this.$message({
           message: '无选中行',
           type: 'warning'
         })
-      }
+      }*/
     },
   }
 }

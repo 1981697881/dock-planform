@@ -1,27 +1,29 @@
 <template>
   <div>
-    <el-form :model="form" :rules="rules" ref="form" label-width="110px" :size="'mini'">
+    <el-form :model="form" :rules="rules" ref="form" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'合同编号'" prop="select">
-            <el-select style="width: 100%" v-model="form.cnSize" placeholder="请选择">
+          <el-form-item :label="'合同编号'" prop="contract_code">
+            <el-select style="width: 100%" v-model="form.contract_code" placeholder="请选择">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+                v-for="(item, index) in contractList"
+                :key="index"
+                :label="item.contractName"
+                :value="item.contractCode">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'入供应商成品清单'" prop="cn">
-            <el-select style="width: 100%" multiple v-model="form.cnSize" placeholder="请选择">
+          <el-form-item :label="'入供应商成品清单'" prop="storage_material_ids">
+            <el-select style="width: 100%" multiple v-model="form.payment.storage_material_ids" placeholder="请选择">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+                v-for="(item, index) in turnoffList"
+                multiple
+                collapse-tags
+                :key="index"
+                :label="item.storageCode"
+                :value="item.storageId">
               </el-option>
             </el-select>
           </el-form-item>
@@ -29,110 +31,95 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'入库单清单'" prop="cn">
-            <el-select style="width: 100%" multiple v-model="form.cnSize" placeholder="请选择">
+          <el-form-item :label="'入库单清单'" prop="entry_ids">
+            <el-select style="width: 100%" multiple v-model="form.payment.entry_ids" placeholder="请选择">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+                v-for="(item, index) in orderLists"
+                multiple
+                collapse-tags
+                :key="index"
+                :label="item.entryCode"
+                :value="item.entryId">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'款项类型'" prop="cn">
-            <el-input v-model="form.usw" readOnly></el-input>
+          <el-form-item :label="'款项类型'" prop="payment_type">
+            <el-input v-model="form.payment.payment_type" readOnly></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'款项id'" prop="cn">
-            <el-input v-model="form.usw" readOnly></el-input>
+          <el-form-item :label="'款项id'">
+            <el-input v-model="form.payment.payment_id" readOnly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'款项名称'" prop="usw">
-          <el-input v-model="form.usw"></el-input>
-        </el-form-item>
+          <el-form-item :label="'款项名称'" prop="payment_name">
+            <el-input v-model="form.payment.payment_name"></el-input>
+          </el-form-item>
         </el-col>
-      </el-row><el-row :gutter="20">
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'票据号码'" prop="cn">
-            <el-input v-model="form.usw" ></el-input>
+          <el-form-item :label="'票据号码'">
+            <el-input v-model="form.payment.bill_number"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'票据类型'" prop="usw">
-          <el-input v-model="form.usw"></el-input>
-        </el-form-item>
+          <el-form-item :label="'票据类型'">
+            <el-input v-model="form.payment.bill_type"></el-input>
+          </el-form-item>
         </el-col>
-      </el-row><el-row :gutter="20">
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'金额'" prop="cn">
-            <el-input v-model="form.usw" ></el-input>
+          <el-form-item :label="'金额'">
+            <el-input-number style="width: 100%" v-model="form.payment.amount_money"></el-input-number>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'税额'" prop="usw">
-          <el-input v-model="form.usw"></el-input>
-        </el-form-item>
+          <el-form-item :label="'税额'">
+            <el-input-number style="width: 100%" v-model="form.payment.amount_tax"></el-input-number>
+          </el-form-item>
         </el-col>
-      </el-row><el-row :gutter="20">
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'价税合计'" prop="cn">
-            <el-input v-model="form.usw" ></el-input>
+          <el-form-item :label="'价税合计'">
+            <el-input-number style="width: 100%" v-model="form.payment.amount_total"></el-input-number>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'开票单位'" prop="usw">
-          <el-input v-model="form.usw"></el-input>
-        </el-form-item>
+          <el-form-item :label="'开票单位'">
+            <el-input v-model="form.payment.invoicer"></el-input>
+          </el-form-item>
         </el-col>
-      </el-row><el-row :gutter="20">
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'开户行'" prop="cn">
-            <el-input v-model="form.usw" ></el-input>
+          <el-form-item :label="'开户行'">
+            <el-input v-model="form.payment.bank"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'开户行账号'" prop="usw">
-          <el-input v-model="form.usw"></el-input>
-        </el-form-item>
+          <el-form-item :label="'开户行账号'">
+            <el-input v-model="form.payment.bank_account"></el-input>
+          </el-form-item>
         </el-col>
-      </el-row><el-row :gutter="20">
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'发票日期'" prop="cn">
-            <el-input v-model="form.usw" ></el-input>
+          <el-form-item :label="'发票日期'">
+            <el-input v-model="form.payment.invoice_date"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'支付比例'" prop="usw">
-          <el-input v-model="form.usw"></el-input>
-        </el-form-item>
-        </el-col>
-      </el-row><el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'款项类型'" prop="cn">
-            <el-input v-model="form.usw" ></el-input>
+          <el-form-item :label="'支付比例'">
+            <el-input v-model="form.payment.payment_ratio"></el-input>
           </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'支付比例'" prop="usw">
-          <el-input v-model="form.usw"></el-input>
-        </el-form-item>
-        </el-col>
-      </el-row><el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'发票日期'" prop="cn">
-            <el-input v-model="form.usw" ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'支付比例'" prop="usw">
-          <el-input v-model="form.usw"></el-input>
-        </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
@@ -217,10 +204,13 @@
   </div>
 </template>
 
-<script>import {createSizeColor} from '@/api/basic/index'
+<script>import {deleteImg} from '@/api/basic/index'
+import {updatePayment, getStorageList, getProjectList} from '@/api/contract/index'
+import {getEntryList} from '@/api/logistics/index'
 import {
   getToken
 } from '@/utils/auth'
+
 export default {
   props: {
     listInfo: {
@@ -239,50 +229,91 @@ export default {
       fileUrl: '',
       hideUpload: false,
       form: {
-        type: 1,
-        cn: null,
-        eur: null,
-        usm: null,
-        usw: null,
-        select: []
+        contract_code: null,
+        operation_type: 'add',
+        payment: {
+          payment_type: null,
+          payment_id: null,
+          payment_name: null,
+          bill_number: null,
+          bill_type: null,
+          amount_money: null,
+          amount_tax: null,
+          amount_total: null,
+          invoicer: null,
+          bank: null,
+          bank_account: null,
+          invoice_date: null,
+          payment_ratio: null,
+        }
       },
+      contractList: [],
+      turnoffList: [],
+      orderLists: [],
       rules: {
-        cn: [
-          {required: true, message: '请输入', trigger: 'blur'}
-        ],eur: [
-          {required: true, message: '请输入', trigger: 'blur'}
-        ],usm: [
-          {required: true, message: '请输入', trigger: 'blur'}
-        ],usw: [
-          {required: true, message: '请输入', trigger: 'blur'}
-        ],
-        select: [
+        operation_type: [
           {required: true, message: '请选择', trigger: 'change'}
+        ], payment_type: [
+          {required: true, message: '请选择', trigger: 'change'}
+        ], payment_id: [
+          {required: true, message: '请选择', trigger: 'change'}
+        ], usw: [
+          {required: true, message: '请输入', trigger: 'blur'}
         ],
       }
     }
   },
   mounted() {
     this.fileUrl = `${window.location.origin}/nanwang/file/imgUpload`
+    this.getContractList();
+    this.getTurnoffList();
+    this.getOrderLists();
     if (this.listInfo) {
       this.form = this.listInfo
     }
   },
   methods: {
+    getContractList() {
+      const data = {
+        pageNum: 1,
+        pageSize: 1000
+      }
+      getProjectList(data, {}).then(res => {
+        this.contractList = res.data.records
+      })
+    },
+    getTurnoffList() {
+      const data = {
+        pageNum: 1,
+        pageSize: 1000
+      }
+      getEntryList(data, {}).then(res => {
+        this.turnoffList = res.data.records
+      })
+    },
+    getOrderLists() {
+      const data = {
+        pageNum: 1,
+        pageSize: 1000
+      }
+      getStorageList(data, {}).then(res => {
+        this.orderLists = res.data.records
+      })
+    },
     handleRemove(file, fileList) {
       let array = this.fileList
       let img = file.url
       deleteImg({img: file.url}).then(res => {
         if (res.flag) {
-        array.forEach((item, index) => {
-          if (item.url == img) {
-          array.splice(index, 1)
+          array.forEach((item, index) => {
+            if (item.url == img) {
+              array.splice(index, 1)
+            }
+          })
+          this.form.productPhoto = null
+          this.hideUpload = false
         }
       })
-        this.form.productPhoto = null
-        this.hideUpload = false
-      }
-    })
     },
     handleChange(file, fileList) {
       this.hideUpload = fileList.length >= this.limit
@@ -311,7 +342,12 @@ export default {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
-          createSizeColor(this.form).then(res => {
+          if (this.form.payment.payment_id == null) {
+            this.form.operation_type = 'add'
+          } else {
+            this.form.operation_type = 'upd'
+          }
+          updatePayment(this.form).then(res => {
             this.$emit('hideDialog', false)
             this.$emit('uploadList')
           })
@@ -324,7 +360,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.hide .el-upload--picture-card {
-  display: none;
-}
+  .hide .el-upload--picture-card {
+    display: none;
+  }
 </style>
