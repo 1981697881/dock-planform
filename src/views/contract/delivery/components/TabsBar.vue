@@ -7,9 +7,9 @@
         </el-button>-->
         <!--@click="printer"-->
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">物资清单</el-button>
-        <el-button :size="'mini'" type="primary" @click="handlerDetailed">交接单</el-button>
-        <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="handlerSync">更新发货</el-button>
-        <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="handlerSync">更新到货</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-folder" @click="handlerDetailed">交接单</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="handlerSync('upf')">更新发货</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="handlerSync('upd')">更新到货</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
     </el-form>
@@ -47,8 +47,8 @@ export default {
     })*/
   },
   methods: {
-    handlerSync(){
-      this.$emit('sync')
+    handlerSync(val){
+      this.$emit('sync',{operation_type: val})
     },
     // 导出
     exportData() {

@@ -32,20 +32,19 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="9">
+        <el-col :span="12">
           <el-form-item :label="'secret'" prop="usw">
           <el-input v-model="form.usw"></el-input>
-
+            <el-button size="mini">重新生成</el-button>
         </el-form-item>
         </el-col>
-        <el-col :span="3"><el-button size="mini">重新生成</el-button></el-col>
         <el-col :span="12">
           <el-form-item :label="'接入ip地址'" prop="usw">
           <el-input v-model="form.usw"></el-input>
         </el-form-item>
         </el-col>
       </el-row><el-row :gutter="20">
-        <el-col :span="12">
+        <el-col :span="24">
           <el-form-item :label="'接入描述'" prop="usw">
           <el-input v-model="form.usw"></el-input>
         </el-form-item>

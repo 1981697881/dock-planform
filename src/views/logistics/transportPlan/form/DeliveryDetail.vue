@@ -3,7 +3,7 @@
     <el-form :model="form" :rules="rules" ref="form" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'到货签收id'" prop="select">
+          <el-form-item :label="'到货签收id'">
             <el-input v-model="form.cn"></el-input>
           </el-form-item>
         </el-col>

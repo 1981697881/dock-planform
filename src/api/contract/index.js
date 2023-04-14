@@ -273,3 +273,16 @@ export function synchronizationMaterialdetail(params) {
     data: params
   })
 }
+// 配送单-更新发货到货
+export function updateDistribution(params) {
+  const url = '/operation/updateDistribution'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('dockrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}

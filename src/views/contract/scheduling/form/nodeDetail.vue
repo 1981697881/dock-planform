@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding-bottom: 50px">
     <list
       class="list-main box-shadow"
       :columns="columns"
@@ -33,6 +33,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       list: [],
       columns: [
         {text: '节点定义id', name: 'id'},
@@ -48,7 +49,7 @@ export default {
   methods: {
     syncNodeList(){
       this.loading = true
-      let userData = JSON.parse(this.userInfo)
+      let userData = typeof this.userInfo == "string"? JSON.parse(this.userInfo) : this.userInfo
       let params= {
         publicKey: userData.FSessionkey,
         secret: userData.FTargetKey,

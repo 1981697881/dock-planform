@@ -14,7 +14,7 @@
       :width="'40%'"
       destroy-on-close
     >
-      <info @hideDialog="hideWindow2" @uploadList="upload" :listInfo="listInfo"></info>
+      <info @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info>
     </el-dialog>
   <el-dialog
       :visible.sync="visible2"
@@ -97,7 +97,7 @@ export default {
         const info = JSON.parse(JSON.stringify(obj))
         this.listInfo = info
       }
-      this.visible2 = true
+      this.visible3 = true
     },
     // 更新列表
     upload() {

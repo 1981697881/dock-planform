@@ -52,7 +52,13 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'年审时间'">
-            <el-input v-model="form.annualReviewTime"></el-input>
+            <el-date-picker
+              value-format="yyyy-MM-dd"
+              v-model="form.annualReviewTime"
+              type="date"
+              style="width: 100%"
+              placeholder="选择日期">
+            </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="12">

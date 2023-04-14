@@ -108,21 +108,22 @@ export default {
         pageSize: this.list.size || 50
       })
     },
-    dblclick(obj) {
+  /*  dblclick(obj) {
       this.$emit('showDialog', obj.row)
-    },
+    },*/
     // 监听单击某一行
     rowClick(obj) {
       this.$store.dispatch('list/setClickData', obj.row)
     },
-    syncList(){
+    syncList(val){
       this.loading = true
-      let userData = JSON.parse(this.userInfo)
+      let userData = typeof this.userInfo == "string"? JSON.parse(this.userInfo) : this.userInfo
       let params= {
         publicKey: userData.FSessionkey,
         secret: userData.FTargetKey,
         username: userData.FAppkey,
-        password: userData.FSecret
+        password: userData.FSecret,
+        operation_type: val.operation_type
       }
       synchronizationDistribution(params).then(res => {
         if(res.flag){

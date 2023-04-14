@@ -19,7 +19,7 @@ export function getAuth(data) {
       'Content-Type': 'application/json',
       'Accept': '*/*'
     },
-    url: '/web/auth/findAuthMessage',
+    url: '/auth/findAuthMessage',
     domainName: 'auth',
     method: 'post',
     data: data

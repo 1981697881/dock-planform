@@ -21,14 +21,27 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'性别'">
-            <el-input v-model="form.sex"></el-input>
+            <el-select style="width: 100%" v-model="form.sex" placeholder="请选择">
+              <el-option
+                v-for="(item, index) in options"
+                :key="index"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'出生日期'">
-            <el-input v-model="form.birthday"></el-input>
+            <el-date-picker
+              value-format="yyyy-MM-dd"
+              v-model="form.birthday"
+              type="date"
+              style="width: 100%"
+              placeholder="选择日期">
+            </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -62,7 +75,7 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="12">
+        <el-col :span="24">
           <el-form-item :label="'备注'">
             <el-input v-model="form.remark"></el-input>
           </el-form-item>
@@ -99,6 +112,13 @@ export default {
         deptName: null,
         remark: null,
       },
+      options: [{
+        label: '男',
+        value: '男',
+      },{
+        label: '女',
+        value: '女',
+      }],
       rules: {
         logisticsProvidersNumber: [
           {required: true, message: '请输入', trigger: 'blur'}

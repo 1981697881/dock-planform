@@ -1,4 +1,4 @@
-import { login, getInfo,changePassword, getPermissions} from '@/api/user'
+import { login, getInfo,getAuth,changePassword, getPermissions} from '@/api/user'
 import { getToken, setToken, removeToken, setUserName, setPassword, setPer} from '@/utils/auth'
 import { resetRouter } from '@/router'
 import Cookies from 'js-cookie'
@@ -47,18 +47,31 @@ const actions = {
     const { username, password } = userInfo
     userInfo.username = username.trim()
     return new Promise((resolve, reject) => {
-      login(userInfo).then(response => {
-       const { data } = response
-       /* commit('SET_TOKEN', data.fid)
-        setToken(data.fid)*/
-        commit('SET_USERNAME', username)
-        commit('SET_PASSWORD', password)
-        setUserName(username)
-        setPassword(password)
-        resolve(response)
-      }).catch(error => {
-        reject(error)
-      })
+        getAuth({"auth": "NW202301XY"}).then(authRes => {
+          if(authRes.success) {
+            userInfo.FTargetKey = authRes.data.FTargetKey
+            userInfo.FAppKey = authRes.data.FAppKey
+            userInfo.FSecret = authRes.data.FSecret
+            userInfo.FK3CloudUrl = authRes.data.FK3CloudUrl
+            login(userInfo).then(response => {
+              const { data } = response
+              /* commit('SET_TOKEN', data.fid)
+               setToken(data.fid)*/
+              commit('SET_USERNAME', username)
+              commit('SET_PASSWORD', password)
+              commit('SET_USER_INFO', authRes.data)
+              Cookies.set('userInfo', authRes.data)
+              setUserName(username)
+              setPassword(password)
+              resolve(response)
+            }).catch(error => {
+              reject(error)
+            })
+          }
+        }).catch(error => {
+          reject(error)
+        })
+
     })
   },
   //修改密码

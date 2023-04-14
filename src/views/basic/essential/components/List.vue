@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <list
       class="list-main box-shadow"
       :columns="columns"

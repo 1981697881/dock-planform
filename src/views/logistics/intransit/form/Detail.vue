@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form :model="form" :rules="rules" ref="form" :size="'mini'">
-      <el-row :gutter="20">
+      <!--<el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'产品'" prop="select">
             <el-cascader
@@ -36,7 +36,7 @@
           <el-input v-model="form.usw"></el-input>
         </el-form-item>
         </el-col>
-      </el-row>
+      </el-row>-->
     </el-form>
     <div slot="footer" style="text-align:center;">
       <el-button type="primary" @click="saveData('form')">保存</el-button>

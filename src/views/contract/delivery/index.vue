@@ -52,8 +52,8 @@ export default {
     this.$refs.list.fetchData(this.$refs.tabs.qFilter())
   },
   methods: {
-    syncList() {
-      this.$refs.list.syncList()
+    syncList(obj) {
+      this.$refs.list.syncList(obj)
     },
     exportData() {
       this.$refs.list.ExportData()

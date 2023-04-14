@@ -3,12 +3,12 @@
     <el-form :model="form" :rules="rules" ref="form" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'接入名称'" prop="select">
+          <el-form-item :label="'供应商名称'" prop="select">
             <el-input v-model="form.cn"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'appKey'" prop="cn">
+          <el-form-item :label="'统一社会信用代码'" prop="cn">
             <el-input v-model="form.cn"></el-input>
           </el-form-item>
         </el-col>
@@ -32,32 +32,37 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="9">
-          <el-form-item :label="'secret'" prop="usw">
-            <el-input v-model="form.usw"></el-input>
-
-          </el-form-item>
-        </el-col>
-        <el-col :span="3"><el-button size="mini">重新生成</el-button></el-col>
         <el-col :span="12">
-          <el-form-item :label="'接入ip地址'" prop="usw">
+          <el-form-item :label="'南网供应商编码'" prop="usw">
             <el-input v-model="form.usw"></el-input>
           </el-form-item>
         </el-col>
-      </el-row><el-row :gutter="20">
-      <el-col :span="12">
-        <el-form-item :label="'接入描述'" prop="usw">
-          <el-input v-model="form.usw"></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
+        <el-col :span="12">
+          <el-form-item :label="'公司地址'" prop="usw">
+            <el-input v-model="form.usw"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item :label="'联系人'" prop="usw">
+            <el-input v-model="form.usw"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="'联系电话'" prop="usw">
+            <el-input v-model="form.usw"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
     <div slot="footer" style="text-align:center;">
       <el-button type="primary" @click="saveData('form')">保存</el-button>
-  </div>
+    </div>
     <div class="list-containerOther">
       <div>
-        <tabs-bar ref="tabs" @showDialog="handlerDialog" @exportData="exportData" @del="delivery" @queryBtn="query" @uploadList="upload"/>
+        <tabs-bar ref="tabs" @showDialog="handlerDialog" @exportData="exportData" @del="delivery" @queryBtn="query"
+                  @uploadList="upload"/>
       </div>
       <list ref="list" @uploadList="uploadPage" @showDialog="handlerDialog"/>
     </div>
@@ -74,8 +79,8 @@
   </div>
 </template>
 
-<script>import { TabsBar, List } from './components'
-import { Info } from './form'
+<script>import {TabsBar, List} from './components'
+import {Info} from './form'
 
 export default {
   components: {

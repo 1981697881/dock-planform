@@ -109,7 +109,7 @@ export default {
 
     syncList(){
       this.loading = true
-      let userData = JSON.parse(this.userInfo)
+      let userData = typeof this.userInfo == "string"? JSON.parse(this.userInfo) : this.userInfo
       let params= {
         publicKey: userData.FSessionkey,
         secret: userData.FTargetKey,
@@ -125,7 +125,7 @@ export default {
     },
     syncComList(){
       this.loading = true
-      let userData = JSON.parse(this.userInfo)
+      let userData = typeof this.userInfo == "string"? JSON.parse(this.userInfo) : this.userInfo
       let params= {
         publicKey: userData.FSessionkey,
         secret: userData.FTargetKey,

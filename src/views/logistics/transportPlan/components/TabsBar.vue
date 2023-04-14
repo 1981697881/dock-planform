@@ -9,9 +9,9 @@
         <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="del">删除</el-button>
-        <el-button :size="'mini'" type="primary" @click="handlerDetailed">配送明细</el-button>
-        <el-button :size="'mini'" type="primary" @click="handlerDelivery">配送到货</el-button>
-        <el-button :size="'mini'" type="primary">配送到货</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-box" @click="handlerDetailed">配送明细</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-open" @click="handlerStart">开始配送</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-truck" @click="handlerDelivery">配送到货</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
     </el-form>
@@ -64,6 +64,9 @@ export default {
     },
     handlerAdd() {
       this.$emit('showDialog')
+    },
+    handlerStart() {
+
     },
     upload() {
       this.$emit('uploadList')

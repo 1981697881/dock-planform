@@ -1,29 +1,23 @@
 <template>
-  <div>
-    <el-form :model="form" :rules="rules" ref="form" :size="'mini'">
-      <el-table :data="list" border height="250px" ref="multipleTable" @selection-change="handleSelectionChange"
-      stripe size="mini" :highlight-current-row="true">
-      <el-table-column align="center" type="selection"></el-table-column>
-      <el-table-column
-        v-for="(t,i) in columns"
-        :key="i"
-        align="center"
-        :prop="t.name"
-        :label="t.text"
-        :width="t.width?t.width:(selfAdaption?'':'120px')"
-        v-if="t.default!=undefined?t.default:true"
-      ></el-table-column>
-    </el-table>
-  </el-form>
-  <!--<div slot="footer" style="text-align:center;">
-    <el-button type="primary" @click="saveData('form')">保存</el-button>
-</div>-->
-</div>
-  </template>
+  <div style="padding-bottom: 50px">
+    <list
+      class="list-main box-shadow"
+      :columns="columns"
+      :loading="loading"
+      :list="list"
+      index
+      @handle-size="handleSize"
+      @handle-current="handleCurrent"
+    />
+  </div>
+</template>
 
-<script>import {createSizeColor} from '@/api/basic/index'
-
+<script>import {getMaterialList} from '@/api/contract/index'
+import List from '@/components/List'
 export default {
+  components: {
+    List
+  },
   props: {
     listInfo: {
       type: Object,
@@ -32,15 +26,8 @@ export default {
   },
   data() {
     return {
-      form: {
-        type: 1,
-        cn: null,
-        eur: null,
-        usm: null,
-        usw: null,
-        select: []
-      },
       list: [],
+      loading: false,
       columns: [
         { text: '配送任务单明细id', name: 'gpName' },
         { text: '配送单id', name: 'gpLevel'},
@@ -62,36 +49,40 @@ export default {
         { text: '地市局（厂）', name: 'gpId'},
         { text: '备注', name: 'gpId'},
       ],
-      rules: {
-        cn: [
-          {required: true, message: '请输入', trigger: 'blur'}
-        ],eur: [
-          {required: true, message: '请输入', trigger: 'blur'}
-        ],usm: [
-          {required: true, message: '请输入', trigger: 'blur'}
-        ],usw: [
-          {required: true, message: '请输入', trigger: 'blur'}
-        ],
-        select: [
-          {required: true, message: '请选择', trigger: 'change'}
-        ],
-      }
     }
   },
   mounted() {
-    if (this.listInfo) {
-      this.form = this.listInfo
-    }
+    /*this.fetchData()*/
   },
   methods: {
+    // 监听每页显示几条
+    handleSize(val) {
+      this.list.size = val
+      this.fetchData()
+    },
+    // 监听当前页
+    handleCurrent(val) {
+      this.list.current = val
+      this.fetchData()
+    },
+    fetchData(val={}, data = {
+      pageNum: this.list.current || 1,
+      pageSize: this.list.size || 50
+    }) {
+      this.loading = true
+      getMaterialList(data, val).then(res => {
+        this.loading = false
+        this.list = res.data
+      })
+    },
     saveData(form) {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
           createSizeColor(this.form).then(res => {
             this.$emit('hideDialog', false)
-          this.$emit('uploadList')
-        })
+            this.$emit('uploadList')
+          })
         } else {
           return false
         }
@@ -100,3 +91,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .list-main {
+    height: calc(100vh/3);
+  }
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding-bottom: 50px">
     <list
       class="list-main box-shadow"
       :columns="columns"
@@ -30,6 +30,7 @@ export default {
   data() {
     return {
       list: [],
+      loading: false,
       columns: [
         { text: '生产编号', name: 'productionCode' },
         { text: '合同编号', name: 'contractCode'},
