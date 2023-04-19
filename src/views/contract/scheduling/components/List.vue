@@ -16,7 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getProjectplanList, addProductInfo, synchronizationProjectplan, synchronizationConfirmation,synchronizationMaterialdetail } from '@/api/contract/index'
+import { getProjectplanList, addProductInfo, synchronizationProjectplan, synchronizationConfirmation,synchronizationMaterialdetail,updateScheduleConfirm } from '@/api/contract/index'
 import List from '@/components/List'
 
 export default {
@@ -112,6 +112,7 @@ export default {
       let userData = typeof this.userInfo == "string"? JSON.parse(this.userInfo) : this.userInfo
       let params= {
         publicKey: userData.FSessionkey,
+        nwUrl: userData.FK3CloudUrl,
         secret: userData.FTargetKey,
         username: userData.FAppkey,
         password: userData.FSecret
@@ -128,11 +129,29 @@ export default {
       let userData = typeof this.userInfo == "string"? JSON.parse(this.userInfo) : this.userInfo
       let params= {
         publicKey: userData.FSessionkey,
+        nwUrl: userData.FK3CloudUrl,
         secret: userData.FTargetKey,
         username: userData.FAppkey,
         password: userData.FSecret
       }
       synchronizationConfirmation(params).then(res => {
+        if(res.flag){
+          this.$emit('uploadList')
+        }
+        this.loading = false
+      })
+    },
+    syncStatusList(){
+      this.loading = true
+      let userData = typeof this.userInfo == "string"? JSON.parse(this.userInfo) : this.userInfo
+      let params= {
+        publicKey: userData.FSessionkey,
+        nwUrl: userData.FK3CloudUrl,
+        secret: userData.FTargetKey,
+        username: userData.FAppkey,
+        password: userData.FSecret
+      }
+      updateScheduleConfirm(params).then(res => {
         if(res.flag){
           this.$emit('uploadList')
         }

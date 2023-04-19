@@ -15,7 +15,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'入供应商成品清单'" prop="storage_material_ids">
+          <el-form-item :label="'入供应商成品清单'"  :prop="form.payment.storage_material_ids" :rules="{required: true, message: '请选择', trigger: 'change'}">
             <el-select style="width: 100%" multiple v-model="form.payment.storage_material_ids" placeholder="请选择">
               <el-option
                 v-for="(item, index) in turnoffList"
@@ -31,7 +31,7 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'入库单清单'" prop="entry_ids">
+          <el-form-item :label="'入库单清单'" :prop="form.payment.entry_ids" :rules="{required: true, message: '请选择', trigger: 'change'}">
             <el-select style="width: 100%" multiple v-model="form.payment.entry_ids" placeholder="请选择">
               <el-option
                 v-for="(item, index) in orderLists"
@@ -46,14 +46,14 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'款项类型'" prop="payment_type">
-            <el-input v-model="form.payment.payment_type" readOnly></el-input>
+            <el-input v-model="form.payment.payment_type"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'款项id'">
-            <el-input v-model="form.payment.payment_id" readOnly></el-input>
+            <el-input v-model="form.payment.payment_id"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -210,7 +210,7 @@ import {getEntryList} from '@/api/logistics/index'
 import {
   getToken
 } from '@/utils/auth'
-
+import { mapGetters } from 'vuex'
 export default {
   props: {
     listInfo: {
@@ -220,6 +220,9 @@ export default {
   },
   data() {
     return {
+      computed: {
+        ...mapGetters(['userInfo'])
+      },
       headers: {
         'authorization': getToken('dockrx'),
       },
@@ -347,6 +350,15 @@ export default {
           } else {
             this.form.operation_type = 'upd'
           }
+          let userData = typeof this.userInfo == "string"? JSON.parse(this.userInfo) : this.userInfo
+          let params= {
+            publicKey: userData.FSessionkey,
+            nwUrl: userData.FK3CloudUrl,
+            secret: userData.FTargetKey,
+            username: userData.FAppkey,
+            password: userData.FSecret
+          }
+          this.form.authPojo = params
           updatePayment(this.form).then(res => {
             this.$emit('hideDialog', false)
             this.$emit('uploadList')

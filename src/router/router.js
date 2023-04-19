@@ -16,6 +16,7 @@ const map = {
   'payment': () => import('@/views/contract/payment'),
   'scheduling': () => import('@/views/contract/scheduling'),
   'warehouse': () => import('@/views/contract/warehouse'),
+  'supplierWarehousing': () => import('@/views/contract/supplierWarehousing'),
 
   'arrival': () => import('@/views/logistics/arrival'),
   'driver': () => import('@/views/logistics/driver'),

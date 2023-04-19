@@ -13,6 +13,7 @@
         <el-button :size="'mini'" type="primary" icon="el-icon-upload2">上传南网</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-download" @click=handlerNode>获取排产信息</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-check" @click="handlerSync">确认排产状态</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-sort" @click="handlerSyncStatus">获取排产状态</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
     </el-form>
@@ -96,6 +97,9 @@ export default {
     },
     handlerSync(){
       this.$emit('syncCom')
+    },
+    handlerSyncStatus(){
+      this.$emit('syncStatus')
     },
     innovate(){
       this.$emit('sync')

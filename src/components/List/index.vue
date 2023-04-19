@@ -64,6 +64,23 @@
             <!--<img style="width:80px;height:80px;border:none;" :src="scope.row.picUrl">-->
           </template>
         </el-table-column>
+        <el-table-column
+          :key="i"
+          v-else-if="t.default == 'list'?true:false"
+          :label="t.text"
+          :width="t.width?t.width:(selfAdaption?'':'120px')"
+          show-overflow-tooltip
+          align="center"
+        >
+          <template slot-scope="scope">
+            <el-button
+              @click.native.prevent="checkRow(scope.$index, scope.row)"
+              type="text"
+              size="small">
+              查看
+            </el-button>
+          </template>
+        </el-table-column>
       </template>
       <slot name="after"></slot>
     </el-table>
@@ -300,6 +317,10 @@
     // 表格双击操作
     dblclick(row, column, el) {
       return this.$emit('dblclick', {row, column, el});
+    },
+    // 表格查看操作
+    checkRow(index, row) {
+      return this.$emit('checkRow', {index, row});
     },
     // 监听每页显示数量
     handleSize(size) {

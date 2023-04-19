@@ -50,9 +50,10 @@ const actions = {
         getAuth({"auth": "NW202301XY"}).then(authRes => {
           if(authRes.success) {
             userInfo.FTargetKey = authRes.data.FTargetKey
-            userInfo.FAppKey = authRes.data.FAppKey
+            userInfo.FAppkey = authRes.data.FAppkey
             userInfo.FSecret = authRes.data.FSecret
             userInfo.FK3CloudUrl = authRes.data.FK3CloudUrl
+            console.log(userInfo)
             login(userInfo).then(response => {
               const { data } = response
               /* commit('SET_TOKEN', data.fid)

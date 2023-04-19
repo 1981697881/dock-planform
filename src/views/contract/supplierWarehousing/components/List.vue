@@ -6,18 +6,19 @@
       :loading="loading"
       :list="list"
       index
+      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @row-click="rowClick"
+      @rowClick="checkRow"
     />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { getPaymentList, updatePayment, synchronizationPayment } from '@/api/contract/index'
+import { getStorageList, updateStorage, synchronizationStorage } from '@/api/contract/index'
 import List from '@/components/List'
-import Cookies from 'js-cookie'
 export default {
   components: {
     List
@@ -32,32 +33,22 @@ export default {
       list: {},
       fid: null,
       type: null,
-
       columns: [
-        { text: '合同款项id', name: 'cn' },
-        { text: '款项名称', name: 'eur' },
-        { text: '款项类型', name: 'usn' },
-        { text: '金额', name: 'usw' },
-        { text: '税额', name: 'usw' },
-        { text: '价税合计', name: 'usw' },
-        { text: '状态', name: 'usw' },
-        { text: '实际付款比例', name: 'usw' },
-        { text: '实际付款金额', name: 'usw' },
-        { text: '票据号码', name: 'usw' },
-        { text: '票据类型', name: 'usw' },
-        { text: '开户行', name: 'usw' },
-        { text: '开户行账号', name: 'usw' },
-        { text: '开票单位', name: 'usw' },
-        { text: '开票日期', name: 'usw' },
-        { text: '入库物资id', name: 'usw' },
-        { text: '入库单id', name: 'usw' },
-        { text: '票据扫描附件', name: 'usw' },
-        { text: '证明材料附件', name: 'usw' },
-        { text: '其它附件', name: 'usw' },
+        { text: '合同编码', name: 'contractCode' },
+        { text: '入库单id', name: 'storageId' },
+        { text: '入库编号', name: 'storageCode' },
+        { text: '入库时间', name: 'storageTime' },
+        { text: '状态', name: 'storageStatus' },
+        { text: '备注', name: 'remarks' },
+        { text: '入库物资信息列表', name: 'storageMaterial',default: 'list' },
+        { text: '入成品库单据附件', name: 'attachmentList',default: 'image'},
       ]
     }
   },
   methods: {
+    checkRow(index, val){
+      this.$emit('showDialog', {records: val})
+    },
     ExportData() {
       import('@/vendor/Export2Excel').then(excel => {
         // 表格的表头列表
@@ -94,7 +85,7 @@ export default {
     },
     Delivery(val) {
       val.operation_type = 'del'
-      updatePayment(val).then(res => {
+      updateStorage(val).then(res => {
         if(res.flag) {
           this.$store.dispatch('list/setClickData', '');
           this.$emit('uploadList')
@@ -124,7 +115,7 @@ export default {
         username: userData.FAppkey,
         password: userData.FSecret
       }
-      synchronizationPayment(params).then(res => {
+      synchronizationStorage(params).then(res => {
         if(res.flag){
           this.$emit('uploadList')
         }
@@ -135,9 +126,8 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-
       this.loading = true
-      getPaymentList(data, val).then(res => {
+      getStorageList(data, val).then(res => {
         this.loading = false
         this.list = res.data
       })

@@ -128,6 +128,13 @@ export const StaticRouterMap = [{
     meta: {
       title: '款项管理'
     }
+  },{
+    path: 'supplierWarehousing',
+    component: () => import('@/views/contract/supplierWarehousing/index'),
+    name: 'SupplierWarehousing',
+    meta: {
+      title: '供应商入库信息'
+    }
   }
   ]
 }, {

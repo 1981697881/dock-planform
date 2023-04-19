@@ -88,7 +88,7 @@
           <el-button @click="setRow">增加</el-button>
           <el-button @click="delRow">删除</el-button>
         </div>
-        <el-table :data="form.product_plan_array[0].plan_time_array" border height="250px" ref="multipleTable"
+        <el-table :data="form.product_plan_array[0].plan_time_array" border height="250px" ref="multipleTable" @selection-change="handleSelectionChange"
                   stripe size="mini" :highlight-current-row="true">
           <el-table-column align="center" type="selection"></el-table-column>
           <el-table-column
@@ -111,7 +111,7 @@
       destroy-on-close
       append-to-body
     >
-      <el-form ref="postform" :size="'mini'" :rules="rules">
+      <el-form ref="postform" :model="postform" :size="'mini'" :rules="rules">
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item :label="'顺序号'">
@@ -160,7 +160,7 @@
 </template>
 
 <script>import {addProductInfo, getMaterialList, getProjectList} from '@/api/contract/index'
-
+import { mapGetters } from 'vuex'
 export default {
   props: {
     listInfo: {
@@ -172,6 +172,9 @@ export default {
       type: Boolean,
       default: true
     }
+  },
+  computed: {
+    ...mapGetters(['userInfo'])
   },
   data() {
     return {
@@ -196,6 +199,7 @@ export default {
       list: [],
       contractList: [],
       productList: [],
+      multipleSelection: [],
       columns: [
         {text: '顺序号', name: ''},
         {text: '节点名称', name: 'name'},
@@ -223,6 +227,9 @@ export default {
     }
   },
   methods: {
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
     getContractList() {
       const data = {
         pageNum: 1,
@@ -242,19 +249,40 @@ export default {
       })
     },
     setRow() {
+      this.postform = {
+        name: null,
+        start_time: null,
+        end_time: null,
+      }
       this.visible = true
     },
     delRow() {
-
+      if(this.multipleSelection.length>0){
+        this.multipleSelection.forEach((item)=>{
+          this.form.product_plan_array[0].plan_time_array.splice(item)
+        })
+      }else{
+        this.$message({
+          message: "请选择删除项",
+          type: 'error'
+        });
+      }
     },
     confirmData(form) {
-      /* this.$refs[form].validate((valid) => {
-         if (valid) {*/
-      console.log(this.postform)
-      this.form.product_plan_array[0].plan_time_array.push(this.postform)
-      this.visible = false
-      /* }
-     })*/
+      this.$refs[form].validate((valid) => {
+        if (valid) {
+          const postForm = {...this.postform}
+          if(this.form.product_plan_array[0].plan_time_array.findIndex(item =>item.name == postForm.name) == -1){
+            this.form.product_plan_array[0].plan_time_array.push(postForm)
+            this.visible = false
+          }else{
+            this.$message({
+              message: "已存在相同项",
+              type: 'error'
+            });
+          }
+        }
+      })
     },
     saveData(form) {
       this.$refs[form].validate((valid) => {
@@ -265,6 +293,15 @@ export default {
           } else {
             this.form.operation_type = 'upd'
           }
+          let userData = typeof this.userInfo == "string"? JSON.parse(this.userInfo) : this.userInfo
+          let params= {
+            publicKey: userData.FSessionkey,
+            nwUrl: userData.FK3CloudUrl,
+            secret: userData.FTargetKey,
+            username: userData.FAppkey,
+            password: userData.FSecret
+          }
+          this.form.authPojo = params
           addProductInfo(this.form).then(res => {
             this.$emit('hideDialog', false)
             this.$emit('uploadList')

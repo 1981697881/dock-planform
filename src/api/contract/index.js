@@ -222,7 +222,21 @@ export function synchronizationStorage(params) {
     method: 'post',
     data: params
   })
-}// 排产资料确认-获取列表
+}
+// 合同入供应商-新增修改删除
+export function updateStorage(params) {
+  const url = '/operation/updateStorage'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('dockrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}
+// 排产资料确认-获取列表
 export function getConfirmationList(params, data) {
   const url = '/confirmation/confirmationList/' + params.pageNum + '/' + params.pageSize
   return request({
@@ -276,6 +290,19 @@ export function synchronizationMaterialdetail(params) {
 // 配送单-更新发货到货
 export function updateDistribution(params) {
   const url = '/operation/updateDistribution'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('dockrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}
+// 获取排产状态-同步
+export function updateScheduleConfirm(params) {
+  const url = '/operation/updateScheduleConfirm'
   return request({
     url: url,
     headers: {

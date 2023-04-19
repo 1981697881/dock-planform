@@ -15,8 +15,6 @@ const service = axios.create({
   withCredentials: true, // send cookies when cross-domain requests
   timeout: 900000 // request timeout
 })
-console.log(1222222)
-console.log(process.env.VUE_APP_BASE_API)
 window.apiUrl = service.defaults.baseURL
 // request interceptor
 service.interceptors.request.use(
@@ -32,7 +30,7 @@ service.interceptors.request.use(
 
       // config.headers['X-Token'] = getToken()
     }
-    if(process.env.NODE_ENV === 'production' && config.domainName == 'auth'){
+    if(config.domainName == 'auth'){
         config.baseURL = process.env.VUE_APP_BASE_API_PROXY
     }
     if (config.headers['Content-Type'] != "application/json") {

@@ -10,13 +10,12 @@
       @handle-current="handleCurrent"
     />
     <div slot="footer" style="text-align:center;">
-   <el-button type="primary" @click="syncNodeList()">获取</el-button>
-  </div>
+      <el-button type="primary" @click="syncNodeList()">获取</el-button>
+    </div>
   </div>
 </template>
 
 <script>import { mapGetters } from 'vuex'
-import {getMaterialdetailList, synchronizationMaterialdetail} from '@/api/contract/index'
 import List from '@/components/List'
 export default {
   components: {
@@ -43,28 +42,9 @@ export default {
     }
   },
   mounted() {
-    this.fetchData()
-
+      this.list = this.listInfo
   },
   methods: {
-    syncNodeList(){
-      this.loading = true
-      let userData = typeof this.userInfo == "string"? JSON.parse(this.userInfo) : this.userInfo
-      let params= {
-        nwUrl: userData.FK3CloudUrl,
-        publicKey: userData.FSessionkey,
-        secret: userData.FTargetKey,
-        username: userData.FAppkey,
-        password: userData.FSecret
-      }
-      synchronizationMaterialdetail(params).then(res => {
-        if(res.flag){
-          this.$emit('hideDialog', false)
-          this.$emit('uploadList')
-        }
-        this.loading = false
-      })
-    },
     // 监听每页显示几条
     handleSize(val) {
       this.list.size = val
@@ -74,16 +54,6 @@ export default {
     handleCurrent(val) {
       this.list.current = val
       this.fetchData()
-    },
-    fetchData(val={}, data = {
-      pageNum: this.list.current || 1,
-      pageSize: this.list.size || 50
-    }) {
-      this.loading = true
-      getMaterialdetailList(data, val).then(res => {
-        this.loading = false
-        this.list = res.data
-      })
     },
   }
 }

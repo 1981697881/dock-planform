@@ -9,7 +9,7 @@
         <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="del">删除</el-button>
-        <el-button :size="'mini'" type="primary" icon="el-icon-download" @click="exportData">导出</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-download" @click="handlerSync">从南网获取</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
     </el-form>
@@ -40,15 +40,16 @@ export default {
     ...mapGetters(['node', 'clickData', 'selections'])
   },
   mounted() {
-    /*this.fileUrl = `${window.location.origin}/nanwang/inputData/inputProductMessage`*/
-    this.fileUrl = `${window.location.origin}/nanwang/inputData/input`
-    /*let path = this.$route.meta.id
+/*    let path = this.$route.meta.id
     getByUserAndPrId(path).then(res => {
       this.btnList = res.data
       this.$forceUpdate()
     })*/
   },
   methods: {
+    handlerSync(){
+      this.$emit('sync')
+    },
     // 导出
     exportData() {
       this.$emit('exportData')

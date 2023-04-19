@@ -2,13 +2,13 @@
   <div class="app-list">
     <div class="list-containerOther">
       <div>
-        <tabs-bar ref="tabs" @showDialog="handlerDialog" @showNodeDialog="handlerNodeDialog" @exportData="exportData" @del="delivery" @queryBtn="query" @uploadList="upload"  @sync="syncList" @syncCom="syncComList" @syncStatus="syncStatusList"/>
+        <tabs-bar ref="tabs" @showDialog="handlerDialog" @showListDialog="handlerListDialog" @exportData="exportData" @del="delivery" @queryBtn="query"  @sync="syncList" @uploadList="upload"/>
       </div>
       <list ref="list" @uploadList="uploadPage" @showDialog="handlerDialog"/>
     </div>
     <el-dialog
       :visible.sync="visible"
-      title="排产信息"
+      title="基本信息"
       v-if="visible"
       v-dialogDrag
       :width="'40%'"
@@ -16,27 +16,27 @@
     >
       <info @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info>
     </el-dialog>
-  <el-dialog
+    <el-dialog
       :visible.sync="visible2"
-      title="节点信息"
+      title="明细信息"
       v-if="visible2"
       v-dialogDrag
       :width="'40%'"
       destroy-on-close
     >
-      <node @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></node>
+      <info @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info>
     </el-dialog>
   </div>
 </template>
 
 <script>import { TabsBar, List } from './components'
-import { Info,Node } from './form'
+import { Info,ListInfo } from './form'
 
 export default {
   components: {
     TabsBar,
     List,
-    Node,
+    ListInfo,
     Info
   },
   data() {
@@ -60,18 +60,12 @@ export default {
         this.$refs.list.Delivery(obj)
       }
     },
+    hideWindow(val) {
+      this.visible = val
+      this.visible2 = val
+    },
     syncList() {
       this.$refs.list.syncList()
-    },
-    syncComList() {
-      this.$refs.list.syncComList()
-    },
-    syncStatusList() {
-      this.$refs.list.syncStatusList()
-    },
-    hideWindow(val) {
-      this.visible2 = val
-      this.visible = val
     },
     handlerDialog(obj) {
       this.listInfo = null
@@ -80,7 +74,8 @@ export default {
         this.listInfo = info
       }
       this.visible = true
-    },handlerNodeDialog(obj) {
+    },
+    handlerListDialog(obj) {
       this.listInfo = null
       if (obj) {
         const info = JSON.parse(JSON.stringify(obj))
