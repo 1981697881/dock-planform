@@ -1,13 +1,14 @@
 <template>
   <div class="login-container">
     <div class="logo">
-      <img src="@/assets/404_images/404.png">
+      <img src="@/assets/images/banner1.jpg">
     </div>
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on"
              label-position="left">
       <div class="title-container">
-        <img src="@/assets/logo/logo.png" class="sidebar-logo">
-        <!--<h3 class="title">服务平台后台管理系统</h3>（测试）-->
+        <!--<img src="@/assets/logo/logo.png" class="sidebar-logo">-->
+        <h3 class="title">中国南方电网</h3>
+        <h3 class="title2">供应链统一服务平台接口平台</h3>
       </div>
       <el-form-item prop="username">
         <span class="svg-container">
@@ -16,14 +17,27 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
+          placeholder="用户"
           name="username"
           type="text"
           tabindex="1"
           auto-complete="on"
         />
       </el-form-item>
-
+      <el-form-item prop="supplierCode">
+        <span class="svg-container">
+          <svg-icon icon-class="people"/>
+        </span>
+        <el-input
+          ref="username"
+          v-model="loginForm.supplierCode"
+          placeholder="供应商编码"
+          name="supplierCode"
+          type="text"
+          tabindex="1"
+          auto-complete="on"
+        />
+      </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password"/>
@@ -33,11 +47,10 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="Password"
+          placeholder="密码"
           name="password"
           tabindex="2"
           auto-complete="on"
-
         />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
@@ -45,7 +58,7 @@
       </el-form-item>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
-                 @click.native.prevent="handleLogin">Login
+                 @click.native.prevent="handleLogin">登入
       </el-button>
 
     </el-form>
@@ -55,8 +68,8 @@
       </div>
       <div class="information">
         <div>联系我们</div>
-        <div>地址：广州市番禺区钟村街雄峰南大街38号2508</div>
-        <div>研发中心：广州市白云区太和镇丰福三路1号（恩创商务中心）二楼2016室</div>
+        <!--<div>地址：广州市番禺区钟村街雄峰南大街38号2508</div>
+        <div>研发中心：广州市白云区太和镇丰福三路1号（恩创商务中心）二楼2016室</div>-->
         <div>电话：020-84898897</div>
         <div>QQ：27099652@qq.com</div>
       </div>
@@ -89,11 +102,13 @@
       return {
         loginForm: {
           username: '',
+          supplierCode: '',
           password: ''
         },
         loginRules: {
-          username: [{required: true, trigger: 'blur', validator: validateUsername}],
-          password: [{required: true, trigger: 'blur', validator: validatePassword}]
+          username: [{required: true, trigger: 'blur', message: '请输入账号'}],
+          supplierCode: [{required: true, trigger: 'blur', message: '请输入供应商编码'}],
+          password: [{required: true, trigger: 'blur', message: '请输入密码'}]
         },
         loading: false,
         passwordType: 'password',
@@ -237,7 +252,7 @@
     .logo {
       display: inline-block;
       float: left;
-      height: 300px;
+      height: calc(100vh - 500px);;
       margin: 160px 50px 0 50px;
       width: calc(100% - 600px);
 
@@ -301,7 +316,12 @@
       .title {
         font-size: 26px;
         color: $light_gray;
-        margin: 0px auto 40px auto;
+        text-align: center;
+        font-weight: bold;
+      }
+      .title2 {
+        font-size: 20px;
+        color: $light_gray;
         text-align: center;
         font-weight: bold;
       }

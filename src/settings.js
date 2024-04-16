@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'dock-planformv.1',
+  title: '中国南方电网-供应链统一服务平台接口平台（鑫源恒业）',
 
   /**
    * @type {boolean} true | false

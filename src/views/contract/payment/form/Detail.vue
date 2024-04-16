@@ -260,7 +260,7 @@ export default {
           {required: true, message: '请选择', trigger: 'change'}
         ], payment_id: [
           {required: true, message: '请选择', trigger: 'change'}
-        ], usw: [
+        ], contract_code: [
           {required: true, message: '请输入', trigger: 'blur'}
         ],
       }
@@ -352,9 +352,9 @@ export default {
           }
           let userData = typeof this.userInfo == "string"? JSON.parse(this.userInfo) : this.userInfo
           let params= {
-            publicKey: userData.FSessionkey,
+            publicKey: userData.FTargetKey,
             nwUrl: userData.FK3CloudUrl,
-            secret: userData.FTargetKey,
+            secret: userData.FSessionkey,
             username: userData.FAppkey,
             password: userData.FSecret
           }

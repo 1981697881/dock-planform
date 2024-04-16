@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'dock-planformv.1' // page title
+const name = defaultSettings.title || '中国南方电网-供应链统一服务平台接口平台（鑫源恒业）' // page title
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
 // For example, Mac: sudo npm run

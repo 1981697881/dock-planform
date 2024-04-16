@@ -108,9 +108,9 @@ export default {
       this.loading = true
       let userData = typeof this.userInfo == "string"? JSON.parse(this.userInfo) : this.userInfo
       let params= {
-        publicKey: userData.FSessionkey,
+        publicKey: userData.FTargetKey,
         nwUrl: userData.FK3CloudUrl,
-        secret: userData.FTargetKey,
+        secret: userData.FSessionkey,
         username: userData.FAppkey,
         password: userData.FSecret
       }
